@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="30001">
+    
+        <setting type="lsep" label="30004" />
+        <setting id="authorize" type="action" label="30006" action="RunPlugin(plugin://service.huecontrol/?action=connect_to_bridge)" default="" />
+<!--        <setting id="bridgeip" type="ipaddress" label="30005" default="" />
+-->
+        <setting label="30003" type="slider" id="minvideolength" default="10" range="0,1,60" option="int" />
+        
+        <setting type="lsep" label="30030" />
+        <setting id="savescenePlaying" type="action" label="30031" action="RunPlugin(plugin://service.huecontrol/?action=savescene&amp;id=Playing)" default="" />
+<!--        <setting id="recallscene1" type="action" label="30033" action="RunPlugin(plugin://service.huecontrol/?action=recallscene&amp;id=1)" default="" />  -->
+        <setting id="brightnessonlyscenePlaying" type="bool" label="30032" default="true" />
+        
+        <setting type="lsep" label="30040" />
+        <setting id="savescenePaused" type="action" label="30031" action="RunPlugin(plugin://service.huecontrol/?action=savescene&quot;id=Paused)" default="" />
+<!--        <setting id="recallscene2" type="action" label="30033" action="RunPlugin(plugin://service.huecontrol/?action=recallscene&amp;id=2)" default="" />  -->
+        <setting id="brightnessonlyscenePaused" type="bool" label="30032" default="true" />
+        
+        <!-- Hidden settings to store data -->
+        <setting id="scenePlaying" type="text" visible="false" label="30030" default="{&quot;lights&quot;:{&quot;1&quot;:{&quot;state&quot;:{&quot;on&quot;: false,&quot;bri&quot;: 254,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}},&quot;2&quot;:{&quot;state&quot;:{&quot;on&quot;: false,&quot;bri&quot;: 254,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}},&quot;3&quot;:{&quot;state&quot;:{&quot;on&quot;: false,&quot;bri&quot;: 254,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}},&quot;4&quot;:{&quot;state&quot;:{&quot;on&quot;: false,&quot;bri&quot;: 254,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}},&quot;5&quot;:{&quot;state&quot;:{&quot;on&quot;: false,&quot;bri&quot;: 254,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}},&quot;6&quot;:{&quot;state&quot;:{&quot;on&quot;: false,&quot;bri&quot;: 254,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}},&quot;7&quot;:{&quot;state&quot;:{&quot;on&quot;: false,&quot;bri&quot;: 254,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}},&quot;8&quot;:{&quot;state&quot;:{&quot;on&quot;: false,&quot;bri&quot;: 254,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}},&quot;9&quot;:{&quot;state&quot;:{&quot;on&quot;: false,&quot;bri&quot;: 254,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}},&quot;10&quot;:{&quot;state&quot;:{&quot;on&quot;: false,&quot;bri&quot;: 254,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}}}}" />
+        <setting id="scenePaused" type="text" visible="false" label="30040" default="{&quot;lights&quot;:{&quot;1&quot;:{&quot;state&quot;:{&quot;on&quot;: true,&quot;bri&quot;: 75,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}},&quot;2&quot;:{&quot;state&quot;:{&quot;on&quot;: true,&quot;bri&quot;: 75,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}},&quot;3&quot;:{&quot;state&quot;:{&quot;on&quot;: true,&quot;bri&quot;: 75,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}},&quot;4&quot;:{&quot;state&quot;:{&quot;on&quot;: true,&quot;bri&quot;: 75,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}},&quot;5&quot;:{&quot;state&quot;:{&quot;on&quot;: true,&quot;bri&quot;: 75,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}},&quot;6&quot;:{&quot;state&quot;:{&quot;on&quot;: true,&quot;bri&quot;: 75,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}},&quot;7&quot;:{&quot;state&quot;:{&quot;on&quot;: true,&quot;bri&quot;: 75,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}},&quot;8&quot;:{&quot;state&quot;:{&quot;on&quot;: true,&quot;bri&quot;: 75,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}},&quot;9&quot;:{&quot;state&quot;:{&quot;on&quot;: true,&quot;bri&quot;: 75,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}},&quot;10&quot;:{&quot;state&quot;:{&quot;on&quot;: true,&quot;bri&quot;: 75,&quot;ct&quot;: 259,&quot;colormode&quot;: &quot;ct&quot;}}}}" />
+    </category>
+    <category label="30109">
+        <setting type="lsep" label="30110" />
+        <setting id="lamp1" type="bool" label="30111" default="true" />
+        <setting id="lamp2" type="bool" label="30112" default="true" />
+        <setting id="lamp3" type="bool" label="30113" default="true" />
+        <setting id="lamp4" type="bool" label="30114" default="false" />
+        <setting id="lamp5" type="bool" label="30115" default="false" />
+        <setting id="lamp6" type="bool" label="30116" default="false" />
+        <setting id="lamp7" type="bool" label="30117" default="false" />
+        <setting id="lamp8" type="bool" label="30118" default="false" />
+        <setting id="lamp9" type="bool" label="30119" default="false" />
+        <setting id="lamp10" type="bool" label="30120" default="false" />
+    </category>
+</settings>

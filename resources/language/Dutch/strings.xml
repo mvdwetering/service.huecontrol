@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<strings>
+    <string id="30000">hue control</string>
+    <string id="30001">Instellingen</string>
+
+    <string id="30003">Minimale video lengte (in minuten)</string>
+
+    <string id="30004">Hue instellingen</string>
+    <string id="30005">IP-addres van de hue bridge</string>
+    <string id="30006">Verbinden met hue bridge</string>
+
+    <string id="30030">Tijdens afspelen</string>
+    <string id="30031">Sla huidige stand op</string>
+    <string id="30032">Verander alleen lichtsterkte</string>
+    <string id="30033">Herstel opgeslagen stand</string>
+
+    <string id="30040">Tijdens pauze</string>
+
+    <string id="30109">Lampen</string>
+    <string id="30110">Aangestuurde lampen</string>
+                  
+    <string id="30111">Hue lamp 1</string>
+    <string id="30112">Hue lamp 2</string>
+    <string id="30113">Hue lamp 3</string>
+    <string id="30114">Hue lamp 4</string>
+    <string id="30115">Hue lamp 5</string>
+    <string id="30116">Hue lamp 6</string>
+    <string id="30117">Hue lamp 7</string>
+    <string id="30118">Hue lamp 8</string>
+    <string id="30119">Hue lamp 9</string>
+    <string id="30120">Hue lamp 10</string>
+</strings>
