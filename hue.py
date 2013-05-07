@@ -12,12 +12,10 @@ from threading import Thread
 from Queue import Queue
 import socket
 import time
+import re
+import sys
 
-
-bridge_ip = "192.168.178.28"
-
-CONTROLLING_LAMPS = 2
-
+MAX_LAMPS = 50
 
 class BridgeLocator:
     '''Class that finds hue bridges in the network'''
@@ -31,6 +29,7 @@ class BridgeLocator:
         while not done:
             item = self.q.get()
 #            print(item)
+            sys.stdout.write('.')
             if item == "STOP":
                 done = True
             else:
@@ -44,10 +43,10 @@ class BridgeLocator:
         print(ip)
         tmp = ip.rfind('.')
         ipstart = ip[0:tmp]
-        print(ipstart)
+        #print(ipstart)
         for i in range(1,254):
             #ip = "192.168.178.{0}".format(i)
-            print(ipstart,i)
+            #print(ipstart,i)
             self.q.put("{0}.{1}".format(ipstart, i))
         
     def FindBridges(self, progress=None, iprange=None):
@@ -63,8 +62,19 @@ class BridgeLocator:
 
         if (iprange is None):
             for ipaddress in [ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.0.0.")]: # magic from the internet (works on my windows, not on OpenElec)
-                self.SearchIpRange(ipaddress)
-                rangecount += 1
+            
+                # Only spam valid home addres ranges
+                
+                # 10.0.0.0 through 10.255.255.255
+                # 169.254.0.0 through 169.254.255.255 (Autoip)
+                # 172.16.0.0 through 172.31.255.255
+                # 192.168.0.0 through 192.168.255.255 
+                if (not re.match("^127\.\d{123}\.\d{123}\.\d{123}$", ip) and 
+                    not re.match("^10\.\d{123}\.\d{123}\.\d{123}$", ip) and 
+                    not re.match("^192\.168.\d{123}$", ip) and 
+                    not re.match("^172\.(1[6-9]|2[0-9]|3[0-1])\.[0-9]{123}\.[0-9]{123}$", ip) ):
+                    self.SearchIpRange(ipaddress)
+                    rangecount += 1
         else:
             self.SearchIpRange(iprange)
             rangecount = 1
@@ -91,8 +101,8 @@ class BridgeLocator:
 
 
     def GetBridgeFromIp(self, ip):
-        print(ip)
-        bridge = 0
+        #print(ip)
+        bridge = None
         try:
             conn = httplib.HTTPConnection(ip, timeout=1)
             conn.request("GET", '/description.xml') 
@@ -125,37 +135,52 @@ class BridgeLocator:
         return bridge
                 
         
-    def FindBridgeById(self, bridgeid):
-        pass
+    def FindBridgeById(self, bridgeid, lastip=None):
+        # TODO, make it fast when no IP provided. Then stop when found.
+        
+        # Try last known IP if provided
+        if lastip:
+            bridge = self.GetBridgeFromIp(lastip)
+            if bridge and bridge.id == bridgeid:
+                return bridge;
+                
+        # Otherwise just find all and filter.
+        bridges = self.FindBridges()
+        
+        for bridge in bridges:
+            if bridge.id == bridgeid:
+                return bridge;
+        
+        return None
 
 
 class Bridge:
     '''Represents the bridge, use it to control the lights'''
     ip = 0
     id = 0
-    name = "Default name"
+    name = "Philips hue"
+    username = None
+    devicetype = None
     authorized = False
     
     authorizeThread = None
     authorizeDuration = 0;
-    authorizeDeviceType = "Nothing"
-    authorizeUser = "DefaultUser"
+
     
-    def __init__(self, ip, id, name):
+    def __init__(self, ip=None, id=None, name=None, devicetype=None, username=None):
         self.ip = ip
         self.id = id
         self.name = name
+        self.devicetype = devicetype
+        self.username = username
 
     def __repr__(self):
         return "{0} - {1} - {2}".format(self.name, self.id, self.ip)
         
 
-    def authorize(self, devicetype, username):
-        # Attempt to create a user
-        self.authorizeDeviceType = devicetype
-        self.authorizeUser = username
-
-        data = {'username':self.authorizeUser, 'devicetype':self.authorizeDeviceType}
+    def authorize(self):
+        # Attempt to create the user
+        data = {'username':self.username, 'devicetype':self.devicetype}
         jsonstr = json.dumps(data)
 
         conn = httplib.HTTPConnection(self.ip)
@@ -176,10 +201,10 @@ class Bridge:
             # Something weird happend
             return 666
         
-    def isAuthorized(self, user):
+    def isAuthorized(self):
         # Just get teh config and check for something in there
         conn = httplib.HTTPConnection(self.ip)
-        conn.request("GET", '/api/{0}/config'.format(user), "") 
+        conn.request("GET", '/api/{0}/config'.format(self.username), "") 
         resp = conn.getresponse()
         data = resp.read()
         #print data
@@ -196,7 +221,7 @@ class Bridge:
     def getFullState(self):
         # Get the full state of the bridge
         conn = httplib.HTTPConnection(self.ip)
-        conn.request("GET", '/api/{0}'.format(user), "") 
+        conn.request("GET", '/api/{0}'.format(self.username), "") 
         resp = conn.getresponse()
         data = resp.read()
         #print data
@@ -205,23 +230,66 @@ class Bridge:
 #        print data
 #        print(reply)
         
-        return reply
+        return data  # return the string so the receiver can easily store it (relevant for saving settings in XBMC which must be strings)
+        
+    def setFullStateLights(self, state, lightList=None, briOnly=False):
+    
+        # Set the lights back to the given full state of the bridge
+        if isinstance(state, basestring):
+            parsedjson = json.loads(state)
+        else:
+            parsedjson = state
+        
+        lights = parsedjson['lights']
+        #print(lights)
+
+        for i in range(MAX_LAMPS):
+            strId = str(i)
+            #print(strId)
+            
+#            if  (hueAddon.getSetting("lamp" + strId ) == "true"):
+            if  not lightList or i in lightList:
+                #print(strId)
+
+                if (strId in lights):
+                    storedstate = lights[strId]['state']
+                    #print(strId, storedstate)
+
+                    lampstate = {}
+                    xsw = storedstate['on']
+                    lampstate['on'] = xsw
+                    lampstate['bri'] = storedstate['bri']
+                    
+                    if not briOnly:
+                        # Also restore color stuff
+                        if (storedstate['colormode'] == 'ct'):
+                            lampstate['ct'] = storedstate['ct']
+                        elif (storedstate['colormode'] == 'xy'):
+                            lampstate['xy'] = storedstate['xy']
+                        elif (storedstate['colormode'] == 'hs'):
+                            lampstate['hue'] = storedstate['hue']
+                            lampstate['sat'] = storedstate['sat']
+
+                    #print(strId + ":" + json.dumps(lampstate))
+                    self.sendLightState(i, json.dumps(lampstate))
+
         
     def sendLightState(self, id, json):
         conn = httplib.HTTPConnection(self.ip)
-        conn.request("PUT", '/api/{0}/lights/{1}/state'.format(self.authorizeUser, id), json) 
+        conn.request("PUT", '/api/{0}/lights/{1}/state'.format(self.username, id), json) 
+        print("PUT", '/api/{0}/lights/{1}/state'.format(self.username, id), json) 
         resp = conn.getresponse()  # Ignore response for now, assume it all went OK
         data = resp.read()
-        print data
+        #print data
         conn.close()
 
     def sendGroupAction(self, id, json):
         conn = httplib.HTTPConnection(self.ip)
-        conn.request("PUT", '/api/{0}/groups/{1}/action'.format(self.authorizeUser, id), json) 
-        print('/api/{0}/groups/{1}/action'.format(self.authorizeUser, id))
+        conn.request("PUT", '/api/{0}/groups/{1}/action'.format(self.username, id), json) 
+        print('/api/{0}/groups/{1}/action'.format(self.username, id))
         resp = conn.getresponse()  # Ignore response for now, assume it all went OK
         data = resp.read()
-        print data
+        #print data
         conn.close()
         
     def setLightOn(self, id):
@@ -233,6 +301,10 @@ class Bridge:
     def setLightBri(self, id, bri):
         data = {'bri':int(bri), 'transitiontime': 20 }
         self.sendLightState(id, json.dumps(data))
+        
+    def setGroupBri(self, id, bri):
+        data = {'bri':int(bri), 'transitiontime': 0 }
+        self.sendGroupAction(id, json.dumps(data))
         
     def setGroupAlert(self, id):
         data = {'alert':'select'}
