@@ -16,6 +16,7 @@ import re
 import sys
 
 MAX_LAMPS = 50
+NUM_THREADS = 20
 
 class BridgeLocator:
     '''Class that finds hue bridges in the network'''
@@ -53,7 +54,7 @@ class BridgeLocator:
         '''Crude first implementation, just try all addresses in the subnet'''
         self.bridges = []
         
-        for i in range(50):
+        for i in range(NUM_THREADS):
             t = Thread(target=self.FindBridgeTask)
             t.daemon = True
             t.start()
@@ -94,7 +95,7 @@ class BridgeLocator:
         self.q.join()
         
         # Done with the threads, time to close them down, otherwise they hang xbmc when tying to close it
-        for i in range(50):
+        for i in range(NUM_THREADS):
             self.q.put("STOP")
         
         return self.bridges    
