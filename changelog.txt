@@ -3,10 +3,8 @@
 - More translatable strings
 - Use own images
 
-
 0.2:
 - Update for Frodo
-
 
 0.1:
 - Initial version
