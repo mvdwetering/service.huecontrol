@@ -31,6 +31,15 @@ class HuePlayer(xbmc.Player):
 
     def _setState(self, state, briOnly=False):
         hueAddon = xbmcaddon.Addon(id=self.addonId)
+        hueAddonDataPath = xbmc.translatePath( hueAddon.getAddonInfo('profile') ).decode("utf-8")  # Translate path to change special:// protocol to a normal path
+        hueAddonDataFile = os.path.join(hueAddonDataPath, 'bridgesettings.pck')
+
+        hueAddonSettings = {}
+
+        if (os.path.isfile(hueAddonDataFile)):
+            with open(hueAddonDataFile, 'rb') as handle:
+              hueAddonSettings = pickle.loads(handle.read())
+
     
         lamps = []
         for i in range(huecontrol.MAX_LAMPS):
@@ -39,7 +48,7 @@ class HuePlayer(xbmc.Player):
             if hueAddon.getSetting("lamp" + strId) == "true":
                 lamps.append(i)
             
-        bridge = hue.Bridge(ip=hueAddon.getSetting("bridgeip"), id=hueAddon.getSetting("bridgeid"), username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
+        bridge = hue.Bridge(ip=hueAddonSettings["bridgeip"], id=hueAddonSettings["bridgeid"], username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
         bridge.setFullStateLights(state, lamps, briOnly)
 
     def onPlayBackStarted(self):
@@ -51,7 +60,16 @@ class HuePlayer(xbmc.Player):
 
         if xbmc.Player().isPlayingVideo() and (xbmc.Player().getTotalTime() >= (float(hueAddon.getSetting("minvideolength")) * 60) or xbmc.Player().getTotalTime() == 0):
             if (self.CONTROLLING_LAMPS == 0):
-                bridge = hue.Bridge(ip=hueAddon.getSetting("bridgeip"), id=hueAddon.getSetting("bridgeid"), username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
+                hueAddonDataPath = xbmc.translatePath( hueAddon.getAddonInfo('profile') ).decode("utf-8")  # Translate path to change special:// protocol to a normal path
+                hueAddonDataFile = os.path.join(hueAddonDataPath, 'bridgesettings.pck')
+
+                hueAddonSettings = []
+
+                if (os.path.isfile(hueAddonDataFile)):
+                    with open(hueAddonDataFile, 'rb') as handle:
+                      hueAddonSettings = pickle.loads(handle.read())
+
+                bridge = hue.Bridge(ip=hueAddonSettings["bridgeip"], id=hueAddonSettings["bridgeid"], username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
                 self.savedlampstate = bridge.getFullState()
 
             self.CONTROLLING_LAMPS = 1
