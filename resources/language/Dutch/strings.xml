@@ -8,6 +8,17 @@
     <string id="30004">Hue instellingen</string>
     <string id="30005">IP-addres van de hue bridge</string>
     <string id="30006">Verbinden met hue bridge</string>
+    <string id="30007">Zoeken</string>
+    <string id="30008">Zoeken naar hue bridge</string>
+    <string id="30009">Zoeken mislukt</string>
+    <string id="30010">Geen hue bridge gevonden</string>
+    <string id="30011">Gevonden: {0}</string>  <!-- {0} will be replaced with the bridgename -->
+    <string id="30012">Kies een bridge</string>
+    <string id="30013">Koppelen</string>
+    <string id="30014">Druk op de knop op de bridge</string>
+    <string id="30015">Nog {0} seconden</string>  <!-- {0} will be replaced with the number of seconds -->
+    <string id="30016">Koppelen mislukt</string>
+    <string id="30017">Gekoppeld and klaar voor gebruik</string>
 
     <string id="30030">Tijdens afspelen</string>
     <string id="30031">Sla huidige stand op</string>

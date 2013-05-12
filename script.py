@@ -29,10 +29,6 @@ hueAddonSettings = {}
 if (os.path.isfile(hueAddonDataFile)):
     with open(hueAddonDataFile, 'rb') as handle:
       hueAddonSettings = pickle.loads(handle.read())
-
-#with open('file.txt', 'wb') as handle:
-#  pickle.dump(a, handle)
-      
       
 print "hueAddon",hueAddonSettings
 
@@ -55,7 +51,7 @@ while idx < len(sys.argv):
 if (parameters['action'] == "connect_to_bridge"):
     
     progress = xbmcgui.DialogProgress()
-    progress.create('Searching', 'Searching for hue bridge.')
+    progress.create(__language__(30007), __language__(30008))
     progress.update(0)
     
     bridges = hue.BridgeLocator().FindBridges(iprange=xbmc.getIPAddress() ,progress=progress.update)
@@ -64,17 +60,17 @@ if (parameters['action'] == "connect_to_bridge"):
     progress.close();
     
     if (len(bridges) == 0):
-        xbmcgui.Dialog().ok("Search failed", "Could not locate a hue bridge :-(") 
+        xbmcgui.Dialog().ok(__language__(30009), __language__(30010)) 
     elif (len(bridges) == 1):
         # Only one bridge, done
         bridgeidx = 0
         bridge = bridges[bridgeidx]
-        notify("Found {0}".format(bridge.name)) # Keep output on one line. Name is name + IP e.g. Philips hue (111.112.113.114)
+        notify(__language__(30011).format(bridge.name)) # Keep output on one line. Name is name + IP e.g. Philips hue (111.112.113.114)
     else:
         dialog = xbmcgui.Dialog()
         
         bridgenames = ["{0}, {1} ({2})".format(bridge.name, bridge.id, bridge.ip) for bridge in bridges]
-        bridgeidx = dialog.select('Select a bridge', bridgenames)
+        bridgeidx = dialog.select(__language__(30011), bridgenames)
     
     if (bridgeidx >= 0):
         bridge = bridges[bridgeidx]
@@ -95,13 +91,13 @@ if (parameters['action'] == "connect_to_bridge"):
             # Perform authorization part
             # Use progress dialog to have a button with a cancel button
             progress = xbmcgui.DialogProgress()
-            progress.create('Authorizing', 'Press the button on the bridge')
+            progress.create(__language__(30013), __language__(30014))
             progress.update(0)
             
             maxcount = 60
             count = 0
             while count < maxcount:
-                progress.update((100/maxcount) * count, "Press the button on the bridge\n{0} seconds remaining".format(maxcount - count))
+                progress.update(int((100.0/maxcount) * count), (__language__(30014) + "\n" + __language__(30015)).format(maxcount - count))
                 #print("{0} seconds remaining".format(maxcount - count))
 
                 result = bridge.authorize()
@@ -116,9 +112,9 @@ if (parameters['action'] == "connect_to_bridge"):
             progress.close();
             
         if (not bridge.isAuthorized()):
-            notify("Authorization failed", duration=5000)
+            notify(__language__(30016), duration=5000)
         else:
-            notify("Authorized and ready to rock", duration=5000)
+            notify(__language__(30017), duration=5000)
             
 elif (parameters['action'] == "savescene"):
     

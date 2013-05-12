@@ -8,6 +8,17 @@
     <string id="30004">hue settings</string>
     <string id="30005">IP-address of hue bridge</string>
     <string id="30006">Connect to hue bridge</string>
+    <string id="30007">Searching</string>
+    <string id="30008">Searching for hue bridge</string>
+    <string id="30009">Search failed</string>
+    <string id="30010">Could not locate a hue bridge</string>
+    <string id="30011">Found {0}</string>  <!-- {0} will be replaced with the bridgename -->
+    <string id="30012">Select a bridge</string>
+    <string id="30013">Authorizing</string>
+    <string id="30014">Press the button on the bridge</string>
+    <string id="30015">{0} seconds remaining</string>  <!-- {0} will be replaced with the number of seconds -->
+    <string id="30016">Authorization failed</string>
+    <string id="30017">Authorized and ready to rock</string>
 
     <string id="30030">Playing</string>
     <string id="30031">Save current lamp state</string>
