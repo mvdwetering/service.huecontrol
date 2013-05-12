@@ -1,3 +1,9 @@
+0.3:
+- Changed settings handling so now you can link a bridge and immediately save the lampstate (without leaving the settings window)
+- More translatable strings
+- Use own images
+
+
 0.2:
 - Update for Frodo
 
