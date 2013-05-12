@@ -1,0 +1,5 @@
+- Create data direcotry when does not exists
+- During starting of the service check the bridge/find it again
+- When can not connect to bridge trhow exceptions or something
+- When not authorized start authorizing procedure?? Throw not Authorized
+- Check icon.png. XBMC can't read it (transparency, not allowed, but I did it anyways)
