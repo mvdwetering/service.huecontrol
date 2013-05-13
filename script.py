@@ -9,6 +9,8 @@ import subprocess,os
 import sys
 from urlparse import urlparse, parse_qs
 import pickle
+import os
+import errno
 
 import hue
 import huecontrol
@@ -17,28 +19,29 @@ import time
 
 addonId = sys.argv[0]  # e.g.   service.huecontrol
 
-hueAddon = xbmcaddon.Addon(id=huecontrol.ADDON_ID)
-hueAddonDataPath = xbmc.translatePath(hueAddon.getAddonInfo('profile')).decode("utf-8")  # Translate path to change special:// protocol to a normal path
-hueAddonDataFile = os.path.join(hueAddonDataPath, 'bridgesettings.pck')
-hueAddonInstallPath = xbmc.translatePath(hueAddon.getAddonInfo('path')).decode("utf-8")  # Translate path to change special:// protocol to a normal path
-hueAddonIcon = os.path.join(hueAddonInstallPath, 'icon.png')
-__language__ = hueAddon.getLocalizedString
+__addon__ = xbmcaddon.Addon(id=huecontrol.ADDON_ID)
+__profile__ = xbmc.translatePath(__addon__.getAddonInfo('profile')).decode("utf-8")  # Translate path to change special:// protocol to a normal path
+__addonpath__ = xbmc.translatePath(__addon__.getAddonInfo('path')).decode("utf-8")  # Translate path to change special:// protocol to a normal path
+__addonicon__ = os.path.join(__addonpath__, 'icon.png')
+__language__ = __addon__.getLocalizedString
+
+# Make sure profile path exists (it seems to be created when first time the settings are saved fromthe settings dialog
+# I need the directory earlier.
+try:
+    os.makedirs(__profile__)
+except OSError as exception:
+    if exception.errno != errno.EEXIST:
+        raise
+            
+__addondatafile__ = os.path.join(__profile__, 'bridgesettings.pck')
+
 
 hueAddonSettings = {}
 
-if (os.path.isfile(hueAddonDataFile)):
-    with open(hueAddonDataFile, 'rb') as handle:
+if (os.path.isfile(__addondatafile__)):
+    with open(__addondatafile__, 'rb') as handle:
       hueAddonSettings = pickle.loads(handle.read())
       
-print "hueAddon",hueAddonSettings
-
-# Just a wrapper to keep icons and title easier consistent
-def notify(text, duration=3000, title=None):
-    if title == None:
-        title = __language__(30000)
-    
-    xbmc.executebuiltin('Notification("{1}","{2}", {3}, {0})'.format(hueAddonIcon, title, text, duration))
-
 
 
 idx = 1
@@ -65,7 +68,7 @@ if (parameters['action'] == "connect_to_bridge"):
         # Only one bridge, done
         bridgeidx = 0
         bridge = bridges[bridgeidx]
-        notify(__language__(30011).format(bridge.name)) # Keep output on one line. Name is name + IP e.g. Philips hue (111.112.113.114)
+        huecontrol.notify(__language__(30011).format(bridge.name)) # Keep output on one line. Name is name + IP e.g. Philips hue (111.112.113.114)
     else:
         dialog = xbmcgui.Dialog()
         
@@ -79,11 +82,11 @@ if (parameters['action'] == "connect_to_bridge"):
         
         xbmc.log(msg='Selected bridge {0} = {1}'.format(bridgeidx, bridge))
         
-        #hueAddon.setSetting("bridgeip", bridge.ip)
-        #hueAddon.setSetting("bridgeid", bridge.id)
+        #__addon__.setSetting("bridgeip", bridge.ip)
+        #__addon__.setSetting("bridgeid", bridge.id)
         hueAddonSettings["bridgeip"] = bridge.ip
         hueAddonSettings["bridgeid"] = bridge.id
-        with open(hueAddonDataFile, 'wb') as handle:
+        with open(__addondatafile__, 'wb') as handle:
             pickle.dump(hueAddonSettings, handle)
 
         
@@ -112,9 +115,9 @@ if (parameters['action'] == "connect_to_bridge"):
             progress.close();
             
         if (not bridge.isAuthorized()):
-            notify(__language__(30016), duration=5000)
+            huecontrol.notify(__language__(30016), duration=5000)
         else:
-            notify(__language__(30017), duration=5000)
+            huecontrol.notify(__language__(30017), duration=5000)
             
 elif (parameters['action'] == "savescene"):
     
@@ -125,16 +128,16 @@ elif (parameters['action'] == "savescene"):
 
     id = parameters['id']
     #print("save scene" + id + ": " + str(state))
-    hueAddon.setSetting("scene" + id, str(state))
-    notify("{0} lamp state stored".format(id))
+    __addon__.setSetting("scene" + id, str(state))
+    huecontrol.notify("{0} lamp state stored".format(id))
 
 elif (parameters['action'] == "recallscene"):
 
     id = parameters['id']
-    state = hueAddon.getSetting("scene" + id)
+    state = __addon__.getSetting("scene" + id)
     print("recall scene" + id + ": " + state)
 
-    bridge = hue.Bridge(ip=hueAddon.getSetting("bridgeip"), id=hueAddon.getSetting("bridgeid"), username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
+    bridge = hue.Bridge(ip=__addon__.getSetting("bridgeip"), id=__addon__.getSetting("bridgeid"), username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
     bridge.setFullStateLights(state)
 
     

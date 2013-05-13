@@ -136,7 +136,7 @@ class BridgeLocator:
         return bridge
                 
         
-    def FindBridgeById(self, bridgeid, lastip=None):
+    def FindBridgeById(self, bridgeid, lastip=None, iprange=None):
         # TODO, make it fast when no IP provided. Then stop when found.
         
         # Try last known IP if provided
@@ -146,7 +146,7 @@ class BridgeLocator:
                 return bridge;
                 
         # Otherwise just find all and filter.
-        bridges = self.FindBridges()
+        bridges = self.FindBridges(iprange=iprange)
         
         for bridge in bridges:
             if bridge.id == bridgeid:

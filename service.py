@@ -8,6 +8,9 @@ import xbmc,xbmcgui, xbmcaddon
 import subprocess,os
 import sys
 from urlparse import urlparse, parse_qs
+import pickle
+import os
+import errno
 
 import hue
 import huecontrol
@@ -26,18 +29,18 @@ class HuePlayer(xbmc.Player):
         print "--> Init"
 
     def _setScene(self, scenename):
-        hueAddon = xbmcaddon.Addon(id=self.addonId)
-        self._setState(hueAddon.getSetting(scenename), hueAddon.getSetting("brightnessonly" + scenename) == "true")
+        __addon__ = xbmcaddon.Addon(id=self.addonId)
+        self._setState(__addon__.getSetting(scenename), __addon__.getSetting("brightnessonly" + scenename) == "true")
 
     def _setState(self, state, briOnly=False):
-        hueAddon = xbmcaddon.Addon(id=self.addonId)
-        hueAddonDataPath = xbmc.translatePath( hueAddon.getAddonInfo('profile') ).decode("utf-8")  # Translate path to change special:// protocol to a normal path
-        hueAddonDataFile = os.path.join(hueAddonDataPath, 'bridgesettings.pck')
+        __addon__ = xbmcaddon.Addon(id=self.addonId)
+        __addonpath__ = xbmc.translatePath( __addon__.getAddonInfo('profile') ).decode("utf-8")  # Translate path to change special:// protocol to a normal path
+        __addondatafile__ = os.path.join(__addonpath__, 'bridgesettings.pck')
 
         hueAddonSettings = {}
 
-        if (os.path.isfile(hueAddonDataFile)):
-            with open(hueAddonDataFile, 'rb') as handle:
+        if (os.path.isfile(__addondatafile__)):
+            with open(__addondatafile__, 'rb') as handle:
               hueAddonSettings = pickle.loads(handle.read())
 
     
@@ -45,28 +48,28 @@ class HuePlayer(xbmc.Player):
         for i in range(huecontrol.MAX_LAMPS):
             strId = str(i)
 
-            if hueAddon.getSetting("lamp" + strId) == "true":
+            if __addon__.getSetting("lamp" + strId) == "true":
                 lamps.append(i)
             
         bridge = hue.Bridge(ip=hueAddonSettings["bridgeip"], id=hueAddonSettings["bridgeid"], username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
         bridge.setFullStateLights(state, lamps, briOnly)
 
     def onPlayBackStarted(self):
-        hueAddon = xbmcaddon.Addon(id=self.addonId)
+        __addon__ = xbmcaddon.Addon(id=self.addonId)
 
         print "--> onPlayBackStarted"
         print xbmc.Player().getTotalTime()
-        print hueAddon.getSetting("minvideolength")
+        print __addon__.getSetting("minvideolength")
 
-        if xbmc.Player().isPlayingVideo() and (xbmc.Player().getTotalTime() >= (float(hueAddon.getSetting("minvideolength")) * 60) or xbmc.Player().getTotalTime() == 0):
+        if xbmc.Player().isPlayingVideo() and (xbmc.Player().getTotalTime() >= (float(__addon__.getSetting("minvideolength")) * 60) or xbmc.Player().getTotalTime() == 0):
             if (self.CONTROLLING_LAMPS == 0):
-                hueAddonDataPath = xbmc.translatePath( hueAddon.getAddonInfo('profile') ).decode("utf-8")  # Translate path to change special:// protocol to a normal path
-                hueAddonDataFile = os.path.join(hueAddonDataPath, 'bridgesettings.pck')
+                __addonpath__ = xbmc.translatePath( __addon__.getAddonInfo('profile') ).decode("utf-8")  # Translate path to change special:// protocol to a normal path
+                __addondatafile__ = os.path.join(__addonpath__, 'bridgesettings.pck')
 
                 hueAddonSettings = []
 
-                if (os.path.isfile(hueAddonDataFile)):
-                    with open(hueAddonDataFile, 'rb') as handle:
+                if (os.path.isfile(__addondatafile__)):
+                    with open(__addondatafile__, 'rb') as handle:
                       hueAddonSettings = pickle.loads(handle.read())
 
                 bridge = hue.Bridge(ip=hueAddonSettings["bridgeip"], id=hueAddonSettings["bridgeid"], username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
@@ -95,7 +98,7 @@ class HuePlayer(xbmc.Player):
         
         
     def onPlayBackPaused(self):
-        hueAddon = xbmcaddon.Addon(id=self.addonId)
+        __addon__ = xbmcaddon.Addon(id=self.addonId)
         print "--> onPlayBackPaused"
         print xbmc.Player().getTotalTime()
 
@@ -104,7 +107,7 @@ class HuePlayer(xbmc.Player):
 
 
     def onPlayBackResumed(self):
-        hueAddon = xbmcaddon.Addon(id=self.addonId)
+        __addon__ = xbmcaddon.Addon(id=self.addonId)
         print "--> onPlayBackResumed"
         print xbmc.Player().getTotalTime()
 
@@ -114,14 +117,50 @@ class HuePlayer(xbmc.Player):
 
 
 
-# Service mode
+# Check if the bridge still exists where we expect it
+__addon__ = xbmcaddon.Addon(id=huecontrol.ADDON_ID)
+__profile__ = xbmc.translatePath(__addon__.getAddonInfo('profile')).decode("utf-8")  # Translate path to change special:// protocol to a normal path
+__language__ = __addon__.getLocalizedString
+
+# Make sure profile path exists (it seems to be created when first time the settings are saved fromthe settings dialog
+# I need the directory earlier.
+try:
+    os.makedirs(__profile__)
+except OSError as exception:
+    if exception.errno != errno.EEXIST:
+        raise
+            
+__addondatafile__ = os.path.join(__profile__, 'bridgesettings.pck')
+
+hueAddonSettings = {}
+hueBridgeOk = False
+
+if (os.path.isfile(__addondatafile__)):
+    with open(__addondatafile__, 'rb') as handle:
+      hueAddonSettings = pickle.loads(handle.read())
+
+    # Make sure the important settings exist
+    if (hueAddonSettings["bridgeip"] and hueAddonSettings["bridgeid"]):
+        bridge = hue.BridgeLocator().FindBridgeById(hueAddonSettings["bridgeid"], hueAddonSettings["bridgeip"], iprange=xbmc.getIPAddress())
+        
+        if bridge == None:
+            huecontrol.notify(__language__(30019), duration=10000)
+        else:
+            hueAddonSettings["bridgeip"] = bridge.ip
+            hueAddonSettings["bridgeid"] = bridge.id
+            
+            # Lets save the stuff back in case it changed
+            with open(__addondatafile__, 'wb') as handle:
+                pickle.dump(hueAddonSettings, handle)
+                
+                huecontrol.notify(__language__(30018))
+                
+
+            
+            
 huePlayer = HuePlayer()
 
 while(not xbmc.abortRequested):
-    # Getting new reference to the addon, this will also make sure the settings are reloaded so changes
-    # throught the settings UI are used. Otherwise the service will keep having the settings from when the service was started
-    # TODO: see if this can be made better, this is just silly
-    ##hueAddon = xbmcaddon.Addon(id='service.huecontrol')
     #print "Loopy"
     xbmc.sleep(1000)
 
