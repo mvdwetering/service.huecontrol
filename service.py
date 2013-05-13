@@ -146,14 +146,20 @@ if (os.path.isfile(__addondatafile__)):
         if bridge == None:
             huecontrol.notify(__language__(30019), duration=10000)
         else:
-            hueAddonSettings["bridgeip"] = bridge.ip
-            hueAddonSettings["bridgeid"] = bridge.id
+            bridge.username = huecontrol.BRIDGEUSER
+            bridge.devicetype = huecontrol.DEVICETYPE
             
-            # Lets save the stuff back in case it changed
-            with open(__addondatafile__, 'wb') as handle:
-                pickle.dump(hueAddonSettings, handle)
+            if not bridge.isAuthorized():
+                huecontrol.notify(__language__(30019), duration=10000)
+            else:
+                hueAddonSettings["bridgeip"] = bridge.ip
+                hueAddonSettings["bridgeid"] = bridge.id
                 
-                huecontrol.notify(__language__(30018))
+                # Lets save the stuff back in case it changed
+                with open(__addondatafile__, 'wb') as handle:
+                    pickle.dump(hueAddonSettings, handle)
+                    
+                    huecontrol.notify(__language__(30018))
                 
 
             
