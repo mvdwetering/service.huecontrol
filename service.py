@@ -81,7 +81,6 @@ class HuePlayer(xbmc.Player):
     
     def onPlayBackEnded(self):
         print "--> onPlayBackEnded"
-        print xbmc.Player().getTotalTime()
             
         if self.CONTROLLING_LAMPS == 1:
             self._setState(self.savedlampstate)
@@ -100,7 +99,6 @@ class HuePlayer(xbmc.Player):
     def onPlayBackPaused(self):
         __addon__ = xbmcaddon.Addon(id=self.addonId)
         print "--> onPlayBackPaused"
-        print xbmc.Player().getTotalTime()
 
         if self.CONTROLLING_LAMPS == 1:
             self._setScene("scenePaused")
@@ -109,7 +107,6 @@ class HuePlayer(xbmc.Player):
     def onPlayBackResumed(self):
         __addon__ = xbmcaddon.Addon(id=self.addonId)
         print "--> onPlayBackResumed"
-        print xbmc.Player().getTotalTime()
 
         if self.CONTROLLING_LAMPS == 1:
             self._setScene("scenePlaying")
