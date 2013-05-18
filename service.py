@@ -46,7 +46,7 @@ class HuePlayer(xbmc.Player):
     
         lamps = []
         for i in range(huecontrol.MAX_LAMPS):
-            strId = str(i)
+            strId = str(i+1)
 
             if __addon__.getSetting("lamp" + strId) == "true":
                 lamps.append(i)
