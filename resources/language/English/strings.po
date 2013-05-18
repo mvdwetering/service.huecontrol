@@ -1,0 +1,178 @@
+# XBMC Media Center language file
+# Addon Name: hue control
+# Addon id: service.huecontrol
+# Addon version: 0.3
+# Addon Provider: Michel van de Wetering
+msgid ""
+msgstr ""
+"Project-Id-Version: XBMC-Addons\n"
+"Report-Msgid-Bugs-To: alanwww1@xbmc.org\n"
+"POT-Creation-Date: 2013-05-18 15:33+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgctxt "Addon Summary"
+msgid "Change your hue lights when a movie starts."
+msgstr ""
+
+msgctxt "Addon Description"
+msgid "This addon will change your lighting when the movie starts, gets paused or stops."
+msgstr ""
+
+msgctxt "#30000"
+msgid "hue control"
+msgstr ""
+
+msgctxt "#30001"
+msgid "Settings"
+msgstr ""
+
+#empty string with id 30002
+
+msgctxt "#30003"
+msgid "Minimum video length (in minutes)"
+msgstr ""
+
+msgctxt "#30004"
+msgid "hue settings"
+msgstr ""
+
+#empty string with id 30005
+
+msgctxt "#30006"
+msgid "Connect to hue bridge"
+msgstr ""
+
+msgctxt "#30007"
+msgid "Searching"
+msgstr ""
+
+msgctxt "#30008"
+msgid "Searching for hue bridge"
+msgstr ""
+
+msgctxt "#30009"
+msgid "Search failed"
+msgstr ""
+
+msgctxt "#30010"
+msgid "Could not locate a hue bridge"
+msgstr ""
+
+#. {0} will be replaced with the bridgename
+msgctxt "#30011"
+msgid "Found {0}"
+msgstr ""
+
+msgctxt "#30012"
+msgid "Select a bridge"
+msgstr ""
+
+msgctxt "#30013"
+msgid "Authorizing"
+msgstr ""
+
+msgctxt "#30014"
+msgid "Press the button on the bridge"
+msgstr ""
+
+#. {0} will be replaced with the number of seconds
+msgctxt "#30015"
+msgid "{0} seconds remaining"
+msgstr ""
+
+msgctxt "#30016"
+msgid "Authorization failed"
+msgstr ""
+
+msgctxt "#30017"
+msgid "Authorized and ready to rock"
+msgstr ""
+
+msgctxt "#30018"
+msgid "Ready to rock!"
+msgstr ""
+
+msgctxt "#30019"
+msgid "Could not reconnect to bridge"
+msgstr ""
+
+#empty strings from id 30020 to 30029
+
+msgctxt "#30030"
+msgid "Playing"
+msgstr ""
+
+msgctxt "#30031"
+msgid "Save current lamp state"
+msgstr ""
+
+msgctxt "#30032"
+msgid "Only change brightness"
+msgstr ""
+
+msgctxt "#30033"
+msgid "Recall stored lamp state"
+msgstr ""
+
+#empty strings from id 30034 to 30039
+
+msgctxt "#30040"
+msgid "Paused"
+msgstr ""
+
+#empty strings from id 30041 to 30108
+
+msgctxt "#30109"
+msgid "Lamps"
+msgstr ""
+
+msgctxt "#30110"
+msgid "Lamps to control"
+msgstr ""
+
+msgctxt "#30111"
+msgid "Hue lamp 1"
+msgstr ""
+
+msgctxt "#30112"
+msgid "Hue lamp 2"
+msgstr ""
+
+msgctxt "#30113"
+msgid "Hue lamp 3"
+msgstr ""
+
+msgctxt "#30114"
+msgid "Hue lamp 4"
+msgstr ""
+
+msgctxt "#30115"
+msgid "Hue lamp 5"
+msgstr ""
+
+msgctxt "#30116"
+msgid "Hue lamp 6"
+msgstr ""
+
+msgctxt "#30117"
+msgid "Hue lamp 7"
+msgstr ""
+
+msgctxt "#30118"
+msgid "Hue lamp 8"
+msgstr ""
+
+msgctxt "#30119"
+msgid "Hue lamp 9"
+msgstr ""
+
+msgctxt "#30120"
+msgid "Hue lamp 10"
+msgstr ""

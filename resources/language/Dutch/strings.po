@@ -1,0 +1,166 @@
+# XBMC Media Center language file
+# Addon Name: hue control
+# Addon id: service.huecontrol
+# Addon version: 0.3
+# Addon Provider: Michel van de Wetering
+msgid ""
+msgstr ""
+"Project-Id-Version: XBMC-Addons\n"
+"Report-Msgid-Bugs-To: alanwww1@xbmc.org\n"
+"POT-Creation-Date: 2013-05-18 15:33+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgctxt "Addon Summary"
+msgid "Change your hue lights when a movie starts."
+msgstr "Verander de licht instellingen als je een film speelt."
+
+msgctxt "Addon Description"
+msgid "This addon will change your lighting when the movie starts, gets paused or stops."
+msgstr "Deze uitbreiding voor XBMC kan de instelingen van de hue lampen aanpassen als je ene film start, stop of pauzeerd"
+
+msgctxt "#30000"
+msgid "hue control"
+msgstr "hue control"
+
+msgctxt "#30001"
+msgid "Settings"
+msgstr "Instellingen"
+
+msgctxt "#30003"
+msgid "Minimum video length (in minutes)"
+msgstr "Minimale video lengte (in minuten)"
+
+msgctxt "#30004"
+msgid "hue settings"
+msgstr "Hue instellingen"
+
+msgctxt "#30006"
+msgid "Connect to hue bridge"
+msgstr "Verbinden met hue bridge"
+
+msgctxt "#30007"
+msgid "Searching"
+msgstr "Zoeken"
+
+msgctxt "#30008"
+msgid "Searching for hue bridge"
+msgstr "Zoeken naar hue bridge"
+
+msgctxt "#30009"
+msgid "Search failed"
+msgstr "Zoeken mislukt"
+
+msgctxt "#30010"
+msgid "Could not locate a hue bridge"
+msgstr "Geen hue bridge gevonden"
+
+msgctxt "#30011"
+msgid "Found {0}"
+msgstr "Gevonden: {0}"
+
+msgctxt "#30012"
+msgid "Select a bridge"
+msgstr "Kies een bridge"
+
+msgctxt "#30013"
+msgid "Authorizing"
+msgstr "Koppelen"
+
+msgctxt "#30014"
+msgid "Press the button on the bridge"
+msgstr "Druk op de knop op de bridge"
+
+msgctxt "#30015"
+msgid "{0} seconds remaining"
+msgstr "Nog {0} seconden"
+
+msgctxt "#30016"
+msgid "Authorization failed"
+msgstr "Koppelen mislukt"
+
+msgctxt "#30017"
+msgid "Authorized and ready to rock"
+msgstr "Gekoppeld and klaar voor gebruik"
+
+msgctxt "#30018"
+msgid "Ready to rock!"
+msgstr "Klaar voor gebruik"
+
+msgctxt "#30019"
+msgid "Could not reconnect to bridge"
+msgstr "Kan geen verbinding maken met bridge"
+
+msgctxt "#30030"
+msgid "Playing"
+msgstr "Tijdens afspelen"
+
+msgctxt "#30031"
+msgid "Save current lamp state"
+msgstr "Sla huidige stand op"
+
+msgctxt "#30032"
+msgid "Only change brightness"
+msgstr "Verander alleen lichtsterkte"
+
+msgctxt "#30033"
+msgid "Recall stored lamp state"
+msgstr "Herstel opgeslagen stand"
+
+msgctxt "#30040"
+msgid "Paused"
+msgstr "Tijdens pauze"
+
+msgctxt "#30109"
+msgid "Lamps"
+msgstr "Lampen"
+
+msgctxt "#30110"
+msgid "Lamps to control"
+msgstr "Aangestuurde lampen"
+
+msgctxt "#30111"
+msgid "Hue lamp 1"
+msgstr "Hue lamp 1"
+
+msgctxt "#30112"
+msgid "Hue lamp 2"
+msgstr "Hue lamp 2"
+
+msgctxt "#30113"
+msgid "Hue lamp 3"
+msgstr "Hue lamp 3"
+
+msgctxt "#30114"
+msgid "Hue lamp 4"
+msgstr "Hue lamp 4"
+
+msgctxt "#30115"
+msgid "Hue lamp 5"
+msgstr "Hue lamp 5"
+
+msgctxt "#30116"
+msgid "Hue lamp 6"
+msgstr "Hue lamp 6"
+
+msgctxt "#30117"
+msgid "Hue lamp 7"
+msgstr "Hue lamp 7"
+
+msgctxt "#30118"
+msgid "Hue lamp 8"
+msgstr "Hue lamp 8"
+
+msgctxt "#30119"
+msgid "Hue lamp 9"
+msgstr "Hue lamp 9"
+
+msgctxt "#30120"
+msgid "Hue lamp 10"
+msgstr "Hue lamp 10"
