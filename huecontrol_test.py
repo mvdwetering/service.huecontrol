@@ -3,12 +3,14 @@
 #
 
 import hue
-import huecontrol
 import time
 
 
+BRIDGEUSER = "65c3f3f7caf6f3c782a5cf3ed8b25de2c83e5b07"
+DEVICETYPE = "XBMC hue control"
+
 BRIDGEID = "00178809a0e5"
-BRIDGEIP = "192.168.178.28"
+BRIDGEIP = "192.168.178.140"
 
 bridge = hue.BridgeLocator().FindBridgeById(BRIDGEID)
 
@@ -19,16 +21,16 @@ else:
     print bridge
 
 
-bridge = hue.BridgeLocator().FindBridgeById(BRIDGEID, "1.2.3.4")
+bridge = hue.BridgeLocator("1.2.3.4").FindBridgeById(BRIDGEID)
 
 if not bridge:
-    print "ERROR: Bridge not found"
+    print "Bridge not found (as expected)"
 else:
-    print "Found bridge: "
+    print "ERROR: Found bridge: "
     print bridge
 
 
-bridge = hue.BridgeLocator().FindBridgeById(BRIDGEID, BRIDGEIP)
+bridge = hue.BridgeLocator(BRIDGEIP).FindBridgeById(BRIDGEID)
 
 if not bridge:
     print "ERROR: Bridge not found"
@@ -38,8 +40,8 @@ else:
 
 
 bridge = hue.BridgeLocator().GetBridgeFromIp(BRIDGEIP)
-bridge.username = huecontrol.BRIDGEUSER
-bridge.devicetype = huecontrol.DEVICETYPE
+bridge.username = BRIDGEUSER
+bridge.devicetype = DEVICETYPE
 
 print bridge
 

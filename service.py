@@ -138,7 +138,7 @@ if (os.path.isfile(__addondatafile__)):
 
     # Make sure the important settings exist
     if (hueAddonSettings["bridgeip"] and hueAddonSettings["bridgeid"]):
-        bridge = hue.BridgeLocator().FindBridgeById(hueAddonSettings["bridgeid"], hueAddonSettings["bridgeip"], iprange=xbmc.getIPAddress())
+        bridge = hue.BridgeLocator(iprange=xbmc.getIPAddress()).FindBridgeById(hueAddonSettings["bridgeid"], hueAddonSettings["bridgeip"])
         
         if bridge == None:
             huecontrol.notify(__language__(30019), duration=10000)

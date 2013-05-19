@@ -62,7 +62,7 @@ elif (parameters['action'] == "connect_to_bridge"):
     progress.create(__language__(30007), __language__(30008))
     progress.update(0)
     
-    bridges = hue.BridgeLocator().FindBridges(iprange=xbmc.getIPAddress() ,progress=progress.update)
+    bridges = hue.BridgeLocator(iprange=xbmc.getIPAddress()).FindBridges(progress=progress.update)
     bridgeidx = -1;
     
     progress.close();

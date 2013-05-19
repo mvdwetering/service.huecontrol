@@ -24,7 +24,9 @@ class BridgeLocator:
     lock = Lock()
     q = Queue()
 
-    
+    def __init__(self, iprange=None):
+        self.iprange = iprange
+
     def FindBridgeTask(self):
         done = False
         while not done:
@@ -40,17 +42,21 @@ class BridgeLocator:
                         self.bridges.append(bridge)
             self.q.task_done()
 
-    def SearchIpRange(self, ip):
-        print(ip)
-        tmp = ip.rfind('.')
-        ipstart = ip[0:tmp]
+    def SearchIpRange(self, iprange=None):
+    
+        if iprange == None:
+            iprange = self.iprange;
+
+        print(iprange)
+        tmp = iprange.rfind('.')
+        ipstart = iprange[0:tmp]
         #print(ipstart)
         for i in range(1,254):
-            #ip = "192.168.178.{0}".format(i)
+            #self.iprange = "192.168.178.{0}".format(i)
             #print(ipstart,i)
             self.q.put("{0}.{1}".format(ipstart, i))
         
-    def FindBridges(self, progress=None, iprange=None):
+    def FindBridges(self, progress=None):
         '''Crude first implementation, just try all addresses in the subnet'''
         self.bridges = []
         
@@ -61,7 +67,7 @@ class BridgeLocator:
 
         rangecount = 0
 
-        if (iprange is None):
+        if (self.iprange is None):
             for ipaddress in [ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.0.0.")]: # magic from the internet (works on my windows, not on OpenElec)
             
                 # Only spam valid home addres ranges
@@ -77,7 +83,7 @@ class BridgeLocator:
                     self.SearchIpRange(ipaddress)
                     rangecount += 1
         else:
-            self.SearchIpRange(iprange)
+            self.SearchIpRange()
             rangecount = 1
         
         if (not progress is None):
@@ -136,7 +142,7 @@ class BridgeLocator:
         return bridge
                 
         
-    def FindBridgeById(self, bridgeid, lastip=None, iprange=None):
+    def FindBridgeById(self, bridgeid, lastip=None):
         # TODO, make it fast when no IP provided. Then stop when found.
         
         # Try last known IP if provided
@@ -146,7 +152,7 @@ class BridgeLocator:
                 return bridge;
                 
         # Otherwise just find all and filter.
-        bridges = self.FindBridges(iprange=iprange)
+        bridges = self.FindBridges()
         
         for bridge in bridges:
             if bridge.id == bridgeid:
