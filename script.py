@@ -51,7 +51,12 @@ while idx < len(sys.argv):
     parameters[args[0]] = args[1]
     idx += 1
 
-if (parameters['action'] == "connect_to_bridge"):
+if (not 'action' in parameters):
+    # No action paramter, so must be run from programs thingy.
+    # Lets show settings for now
+    __addon__.openSettings()
+    
+elif (parameters['action'] == "connect_to_bridge"):
     
     progress = xbmcgui.DialogProgress()
     progress.create(__language__(30007), __language__(30008))
