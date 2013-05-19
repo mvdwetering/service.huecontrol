@@ -164,3 +164,23 @@ msgstr "Hue lamp 9"
 msgctxt "#30120"
 msgid "Hue lamp 10"
 msgstr "Hue lamp 10"
+
+msgctxt "#30121"
+msgid "Hue lamp 11"
+msgstr "Hue lamp 11"
+
+msgctxt "#30122"
+msgid "Hue lamp 12"
+msgstr "Hue lamp 12"
+
+msgctxt "#30123"
+msgid "Hue lamp 13"
+msgstr "Hue lamp 13"
+
+msgctxt "#30124"
+msgid "Hue lamp 14"
+msgstr "Hue lamp 14"
+
+msgctxt "#30125"
+msgid "Hue lamp 15"
+msgstr "Hue lamp 15"

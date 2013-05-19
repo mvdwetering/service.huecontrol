@@ -12,9 +12,9 @@
   </extension>
   <extension point="xbmc.addon.metadata">
     <platform>all</platform>
-    <summary lang="en">Change your hue lights when a movie starts.</summary>
+    <summary lang="en">Change your hue lights during a movie.</summary>
     <description lang="en">This addon will change your lighting when the movie starts, gets paused or stops.</description>
-    <summary lang="nl">Verander de licht instellingen als je een film speelt.</summary>
-    <description lang="nl">Deze uitbreiding voor XBMC kan de instelingen van de hue lampen aanpassen als je ene film start, stop of pauzeerd</description>
+    <summary lang="nl">Verander de licht instellingen tijdens een film.</summary>
+    <description lang="nl">Deze uitbreiding voor XBMC kan de instelingen van de hue lampen aanpassen als je een film start, stopt of pauzeerd</description>
   </extension>
 </addon>

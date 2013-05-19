@@ -176,3 +176,23 @@ msgstr ""
 msgctxt "#30120"
 msgid "Hue lamp 10"
 msgstr ""
+
+msgctxt "#30121"
+msgid "Hue lamp 11"
+msgstr ""
+
+msgctxt "#30122"
+msgid "Hue lamp 12"
+msgstr "
+
+msgctxt "#30123"
+msgid "Hue lamp 13"
+msgstr ""
+
+msgctxt "#30124"
+msgid "Hue lamp 14"
+msgstr ""
+
+msgctxt "#30125"
+msgid "Hue lamp 15"
+msgstr ""

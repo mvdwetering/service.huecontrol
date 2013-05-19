@@ -30,5 +30,10 @@
         <setting id="lamp8" type="bool" label="30118" default="false" />
         <setting id="lamp9" type="bool" label="30119" default="false" />
         <setting id="lamp10" type="bool" label="30120" default="false" />
+        <setting id="lamp11" type="bool" label="30121" default="false" />
+        <setting id="lamp12" type="bool" label="30122" default="false" />
+        <setting id="lamp13" type="bool" label="30123" default="false" />
+        <setting id="lamp14" type="bool" label="30124" default="false" />
+        <setting id="lamp15" type="bool" label="30125" default="false" />
     </category>
 </settings>
