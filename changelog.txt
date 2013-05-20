@@ -1,7 +1,10 @@
+0.6
+- Wrong lamps were controlled (broken since 0.4)
+
 0.5
 - Last lamp was not controlled
 - Extended number of lamps to 15
-- Show settings when staring the addon from the programs section of XBMC
+- Show settings when starting the addon from the programs section of XBMC
 
 0.4
 - Fixed lights not returning to saved state when movie ends
