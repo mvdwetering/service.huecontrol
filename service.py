@@ -49,7 +49,7 @@ class HuePlayer(xbmc.Player):
             strId = str(i+1)
 
             if __addon__.getSetting("lamp" + strId) == "true":
-                lamps.append(i)
+                lamps.append(i+1)
             
         bridge = hue.Bridge(ip=hueAddonSettings["bridgeip"], id=hueAddonSettings["bridgeid"], username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
         bridge.setFullStateLights(state, lamps, briOnly)
