@@ -254,7 +254,6 @@ class Bridge:
             strId = str(i)
             #print(strId)
             
-#            if  (hueAddon.getSetting("lamp" + strId ) == "true"):
             if  not lightList or i in lightList:
                 #print(strId)
 
@@ -263,19 +262,23 @@ class Bridge:
                     #print(strId, storedstate)
 
                     lampstate = {}
-                    xsw = storedstate['on']
-                    lampstate['on'] = xsw
-                    lampstate['bri'] = storedstate['bri']
+
+                    lampstate['on'] = storedstate['on']
                     
-                    if not briOnly:
-                        # Also restore color stuff
-                        if (storedstate['colormode'] == 'ct'):
-                            lampstate['ct'] = storedstate['ct']
-                        elif (storedstate['colormode'] == 'xy'):
-                            lampstate['xy'] = storedstate['xy']
-                        elif (storedstate['colormode'] == 'hs'):
-                            lampstate['hue'] = storedstate['hue']
-                            lampstate['sat'] = storedstate['sat']
+                    # When lamp going to be off don't send the rest
+                    # It avoids weird color flash
+                    if storedstate['on'] == true:
+                        lampstate['bri'] = storedstate['bri']
+                        
+                        if not briOnly:
+                            # Also restore color stuff
+                            if (storedstate['colormode'] == 'ct'):
+                                lampstate['ct'] = storedstate['ct']
+                            elif (storedstate['colormode'] == 'xy'):
+                                lampstate['xy'] = storedstate['xy']
+                            elif (storedstate['colormode'] == 'hs'):
+                                lampstate['hue'] = storedstate['hue']
+                                lampstate['sat'] = storedstate['sat']
 
                     #print(strId + ":" + json.dumps(lampstate))
                     self.sendLightState(i, json.dumps(lampstate))
