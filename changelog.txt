@@ -1,3 +1,8 @@
+0.7
+- Refactored bridge code
+- Added presets, you can select them when starting te addon from the program sections or you can bind it
+  to a button with the following code "RunScript(service.huecontrol,action=showpresets)"
+
 0.6
 - Wrong lamps were controlled (broken since 0.4)
 
