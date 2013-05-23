@@ -1,5 +1,5 @@
 #
-# Code to controll the hue bridge
+# Code to control the hue bridge
 #
 
 import json
@@ -15,8 +15,8 @@ import time
 import re
 import sys
 
-MAX_LAMPS = 50
-NUM_THREADS = 20
+MAX_LAMPS = 50   # Max lamps supported by the bridge
+NUM_THREADS = 20 # Number of threads spawned when searching the network for bridges
 
 class BridgeLocator:
     '''Class that finds hue bridges in the network'''
@@ -174,12 +174,13 @@ class Bridge:
     authorizeDuration = 0;
 
     
-    def __init__(self, ip=None, id=None, name=None, devicetype=None, username=None):
+    def __init__(self, ip=None, id=None, name=None, devicetype=None, username=None, logfunc=None):
         self.ip = ip
         self.id = id
         self.name = name
         self.devicetype = devicetype
         self.username = username
+        self.logfunc = logfunc
 
     def __repr__(self):
         return "{0} - {1} - {2}".format(self.name, self.id, self.ip)
@@ -188,37 +189,21 @@ class Bridge:
     def authorize(self):
         # Attempt to create the user
         data = {'username':self.username, 'devicetype':self.devicetype}
-        jsonstr = json.dumps(data)
+        #jsonstr = json.dumps(data)
 
-        conn = httplib.HTTPConnection(self.ip)
-        conn.request("POST", '/api', jsonstr) 
-        resp = conn.getresponse()
-        data = resp.read()
+        reply = self.POST("", data, addUsername=False)
         
-        reply = json.loads(data)[0]
-        conn.close()  
-#        print data
-#        print(reply)
-        
-        if ('success' in reply):
+        if ('success' in reply[0]):
             return 0
-        elif ('error' in reply):
-            return reply['error']['type']
+        elif ('error' in reply[0]):
+            return reply[0]['error']['type']
         else:
             # Something weird happend
             return 666
         
     def isAuthorized(self):
         # Just get teh config and check for something in there
-        conn = httplib.HTTPConnection(self.ip)
-        conn.request("GET", '/api/{0}/config'.format(self.username), "") 
-        resp = conn.getresponse()
-        data = resp.read()
-        #print data
-        reply = json.loads(data)
-        conn.close()  
-#        print data
-#        print(reply)
+        reply = self.GET("/config")
         
         if ('whitelist' in reply):
             return 1
@@ -227,22 +212,17 @@ class Bridge:
 
     def getFullState(self):
         # Get the full state of the bridge
-        conn = httplib.HTTPConnection(self.ip)
-        conn.request("GET", '/api/{0}'.format(self.username), "") 
-        resp = conn.getresponse()
-        data = resp.read()
-        #print data
-        reply = json.loads(data)
-        conn.close()  
-#        print data
-#        print(reply)
-        
-        return data  # return the string so the receiver can easily store it (relevant for saving settings in XBMC which must be strings)
+        reply = self.GET("")
+
+        return json.dumps(reply)  # return the string so the receiver can easily store it (relevant for saving settings in XBMC which must be strings)
         
     def setFullStateLights(self, state, lightList=None, briOnly=False):
     
         # Set the lights back to the given full state of the bridge
         if isinstance(state, basestring):
+            # Dont apply empty states
+            if state == "":
+                return
             parsedjson = json.loads(state)
         else:
             parsedjson = state
@@ -267,7 +247,7 @@ class Bridge:
                     
                     # When lamp going to be off don't send the rest
                     # It avoids weird color flash
-                    if storedstate['on'] == true:
+                    if storedstate['on'] != False:
                         lampstate['bri'] = storedstate['bri']
                         
                         if not briOnly:
@@ -281,46 +261,66 @@ class Bridge:
                                 lampstate['sat'] = storedstate['sat']
 
                     #print(strId + ":" + json.dumps(lampstate))
-                    self.sendLightState(i, json.dumps(lampstate))
+                    self.PUT('/lights/{0}/state'.format(strId), lampstate)
 
-        
-    def sendLightState(self, id, json):
-        conn = httplib.HTTPConnection(self.ip)
-        conn.request("PUT", '/api/{0}/lights/{1}/state'.format(self.username, id), json) 
-        print("PUT", '/api/{0}/lights/{1}/state'.format(self.username, id), json) 
-        resp = conn.getresponse()  # Ignore response for now, assume it all went OK
-        data = resp.read()
-        #print data
-        conn.close()
-
-    def sendGroupAction(self, id, json):
-        conn = httplib.HTTPConnection(self.ip)
-        conn.request("PUT", '/api/{0}/groups/{1}/action'.format(self.username, id), json) 
-        print('/api/{0}/groups/{1}/action'.format(self.username, id))
-        resp = conn.getresponse()  # Ignore response for now, assume it all went OK
-        data = resp.read()
-        #print data
-        conn.close()
         
     def setLightOn(self, id):
-        self.sendLightState(self, id, '{"on": true}')
+        self.PUT('/lights/{0}/state'.format(id), '{"on": true}')
       
     def setLightOff(self, id):
-        self.sendLightState(id, '{"on": false}')
+        self.PUT('/lights/{0}/state'.format(id), {"on": False})
       
-    def setLightBri(self, id, bri):
-        data = {'bri':int(bri), 'transitiontime': 20 }
-        self.sendLightState(id, json.dumps(data))
-        
-    def setGroupBri(self, id, bri):
-        data = {'bri':int(bri), 'transitiontime': 0 }
-        self.sendGroupAction(id, json.dumps(data))
-        
-    def setGroupAlert(self, id):
-        data = {'alert':'select'}
-        self.sendGroupAction(id, json.dumps(data))
 
-    
+      
+    def CLIP(self, method, resource, body, addUsername=True):
+
+        reply = ""
+
+        if type(body) == dict:
+            body = json.dumps(body)
+
+        url = '/api'    
+        if addUsername == True:
+            url += '/{0}'.format(self.username)
+        url += resource
+
+        if self.logfunc:
+            self.logfunc('> {0}, {1}, {2}\n'.format(method, url, body))
+
+        try:
+            conn = httplib.HTTPConnection(self.ip)
+            conn.request(method, url, body)
+            resp = conn.getresponse()
+            data = resp.read()
+
+            reply = json.loads(data)
+            conn.close()
+        except Exception as e:
+            if self.logfunc:
+                self.logfunc('E {0}\n'.format(traceback.format_exc()))
+            raise e
+        else:
+            if self.logfunc:
+                self.logfunc('< {0}\n'.format(data))
+        
+        return reply
+        
+
+    def GET(self, resource):
+        return self.CLIP("GET", resource, "")
+
+        
+    def PUT(self, resource, body):
+        return self.CLIP("PUT", resource, body)
+
+        
+    def POST(self, resource, body, addUsername=True):
+        return self.CLIP("POST", resource, body, addUsername)
+
+        
+    def DELETE(self, resource):
+        return self.CLIP("DELETE", resource, "")
+        
   
  
 

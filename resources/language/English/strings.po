@@ -196,3 +196,35 @@ msgstr ""
 msgctxt "#30125"
 msgid "Hue lamp 15"
 msgstr ""
+
+msgctxt "#30200"
+msgid "Presets"
+msgstr ""
+
+msgctxt "#30201"
+msgid "Preset name"
+msgstr ""
+
+msgctxt "#30202"
+msgid "hue presets"
+msgstr ""
+
+msgctxt "#30211"
+msgid "Preset 1"
+msgstr ""
+
+msgctxt "#30212"
+msgid "Preset 2"
+msgstr ""
+
+msgctxt "#30213"
+msgid "Preset 3"
+msgstr ""
+
+msgctxt "#30214"
+msgid "Preset 4"
+msgstr ""
+
+msgctxt "#30215"
+msgid "Preset 5"
+msgstr ""

@@ -14,6 +14,7 @@ import errno
 
 import hue
 import huecontrol
+import xbmccommon
 import time
 
   
@@ -24,7 +25,7 @@ class HuePlayer(xbmc.Player):
         
         self.savedlampstate = '{"lights":{}}'
         self.CONTROLLING_LAMPS = 0
-        self.addonId = huecontrol.ADDON_ID
+        self.addonId = xbmccommon.ADDON_ID
 
         print "--> Init"
 
@@ -115,7 +116,7 @@ class HuePlayer(xbmc.Player):
 
 
 # Check if the bridge still exists where we expect it
-__addon__ = xbmcaddon.Addon(id=huecontrol.ADDON_ID)
+__addon__ = xbmcaddon.Addon(id=xbmccommon.ADDON_ID)
 __profile__ = xbmc.translatePath(__addon__.getAddonInfo('profile')).decode("utf-8")  # Translate path to change special:// protocol to a normal path
 __language__ = __addon__.getLocalizedString
 
@@ -141,13 +142,13 @@ if (os.path.isfile(__addondatafile__)):
         bridge = hue.BridgeLocator(iprange=xbmc.getIPAddress()).FindBridgeById(hueAddonSettings["bridgeid"], hueAddonSettings["bridgeip"])
         
         if bridge == None:
-            huecontrol.notify(__language__(30019), duration=10000)
+            xbmccommon.notify(__language__(30019), duration=10000)
         else:
             bridge.username = huecontrol.BRIDGEUSER
             bridge.devicetype = huecontrol.DEVICETYPE
             
             if not bridge.isAuthorized():
-                huecontrol.notify(__language__(30019), duration=10000)
+                xbmccommon.notify(__language__(30019), duration=10000)
             else:
                 hueAddonSettings["bridgeip"] = bridge.ip
                 hueAddonSettings["bridgeid"] = bridge.id
@@ -156,7 +157,7 @@ if (os.path.isfile(__addondatafile__)):
                 with open(__addondatafile__, 'wb') as handle:
                     pickle.dump(hueAddonSettings, handle)
                     
-                    huecontrol.notify(__language__(30018))
+                    xbmccommon.notify(__language__(30018))
                 
 
             

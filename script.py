@@ -14,12 +14,13 @@ import errno
 
 import hue
 import huecontrol
+import xbmccommon
 import time
 
 
 addonId = sys.argv[0]  # e.g.   service.huecontrol
 
-__addon__ = xbmcaddon.Addon(id=huecontrol.ADDON_ID)
+__addon__ = xbmcaddon.Addon(id=xbmccommon.ADDON_ID)
 __profile__ = xbmc.translatePath(__addon__.getAddonInfo('profile')).decode("utf-8")  # Translate path to change special:// protocol to a normal path
 __addonpath__ = xbmc.translatePath(__addon__.getAddonInfo('path')).decode("utf-8")  # Translate path to change special:// protocol to a normal path
 __addonicon__ = os.path.join(__addonpath__, 'icon.png')
@@ -46,17 +47,22 @@ if (os.path.isfile(__addondatafile__)):
 
 idx = 1
 parameters = {}
+parameters["action"] = "none"
+
 while idx < len(sys.argv):
     args = sys.argv[idx].split('=')
     parameters[args[0]] = args[1]
     idx += 1
 
-if (not 'action' in parameters):
+if (parameters['action'] == "none"):
     # No action paramter, so must be run from programs thingy.
     # Lets show settings for now
-    __addon__.openSettings()
+    #__addon__.openSettings()
+    parameters['action'] = "showpresets"
+
+
     
-elif (parameters['action'] == "connect_to_bridge"):
+if (parameters['action'] == "connect_to_bridge"):
     
     progress = xbmcgui.DialogProgress()
     progress.create(__language__(30007), __language__(30008))
@@ -73,7 +79,7 @@ elif (parameters['action'] == "connect_to_bridge"):
         # Only one bridge, done
         bridgeidx = 0
         bridge = bridges[bridgeidx]
-        huecontrol.notify(__language__(30011).format(bridge.name)) # Keep output on one line. Name is name + IP e.g. Philips hue (111.112.113.114)
+        xbmccommon.notify(__language__(30011).format(bridge.name)) # Keep output on one line. Name is name + IP e.g. Philips hue (111.112.113.114)
     else:
         dialog = xbmcgui.Dialog()
         
@@ -120,9 +126,9 @@ elif (parameters['action'] == "connect_to_bridge"):
             progress.close();
             
         if (not bridge.isAuthorized()):
-            huecontrol.notify(__language__(30016), duration=5000)
+            xbmccommon.notify(__language__(30016), duration=5000)
         else:
-            huecontrol.notify(__language__(30017), duration=5000)
+            xbmccommon.notify(__language__(30017), duration=5000)
             
 elif (parameters['action'] == "savescene"):
     
@@ -134,7 +140,11 @@ elif (parameters['action'] == "savescene"):
     id = parameters['id']
     #print("save scene" + id + ": " + str(state))
     __addon__.setSetting("scene" + id, str(state))
-    huecontrol.notify("{0} lamp state stored".format(id))
+    
+    if (__addon__.getSetting("namescene" + id)):
+        id = __addon__.getSetting("namescene" + id)
+    
+    xbmccommon.notify(__language__(30034).format(id))
 
 elif (parameters['action'] == "recallscene"):
 
@@ -145,5 +155,25 @@ elif (parameters['action'] == "recallscene"):
     bridge = hue.Bridge(ip=__addon__.getSetting("bridgeip"), id=__addon__.getSetting("bridgeid"), username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
     bridge.setFullStateLights(state)
 
+elif (parameters['action'] == "showpresets"):
+
+    dialog = xbmcgui.Dialog()
     
+    presetnames = []
+    
+    for i in range(huecontrol.NUM_PRESETS):
+        presetnames.append (__addon__.getSetting("namescenePreset" + str(i+1)))
+        print "namescene" + str(i+1) + " - " +  __addon__.getSetting("namescenePreset" + str(i+1))
+    
+    idx = dialog.select(__language__(30202), presetnames)
+    
+    if idx >= 0:
+        presetId = "Preset" + str(idx+1)
+
+        state = __addon__.getSetting("scene" + presetId)
+        print("recall preset" + presetId + ": " + state)
+
+        bridge = hue.Bridge(ip=__addon__.getSetting("bridgeip"), id=__addon__.getSetting("bridgeid"), username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
+        bridge.setFullStateLights(state)
+
     

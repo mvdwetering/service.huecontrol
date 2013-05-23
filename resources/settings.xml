@@ -36,4 +36,31 @@
         <setting id="lamp14" type="bool" label="30124" default="false" />
         <setting id="lamp15" type="bool" label="30125" default="false" />
     </category>
+    <category label="30200">
+        <setting type="lsep" label="30211" />
+        <setting id="namescenePreset1" type="text" label="30201" default="30211" />
+        <setting id="savescenePreset1" type="action" label="30031" action="RunScript(service.huecontrol,action=savescene,id=Preset1)" default="" />
+        <setting id="brightnessonlyscenePreset1" type="bool" label="30032" default="false" />
+        <setting id="scenePreset1" type="text" visible="false" default="" />
+        <setting type="lsep" label="30212" />
+        <setting id="namescenePreset2" type="text" label="30201" default="30212" />
+        <setting id="savescenePreset2" type="action" label="30031" action="RunScript(service.huecontrol,action=savescene,id=Preset2)" default="" />
+        <setting id="brightnessonlyscenePreset2" type="bool" label="30032" default="false" />
+        <setting id="scenePreset2" type="text" visible="false" default="" />
+        <setting type="lsep" label="30213" />
+        <setting id="namescenePreset3" type="text" label="30201" default="30213" />
+        <setting id="savescenePreset3" type="action" label="30031" action="RunScript(service.huecontrol,action=savescene,id=Preset3)" default="" />
+        <setting id="brightnessonlyscenePreset3" type="bool" label="30032" default="false" />
+        <setting id="scene3" type="text" visible="false" default="" />
+        <setting type="lsep" label="30214" />
+        <setting id="namescenePreset4" type="text" label="30201" default="30214" />
+        <setting id="savescenePreset4" type="action" label="30031" action="RunScript(service.huecontrol,action=savescene,id=Preset4)" default="" />
+        <setting id="brightnessonlyscenePreset4" type="bool" label="30032" default="false" />
+        <setting id="scenePreset4" type="text" visible="false" default="" />
+        <setting type="lsep" label="30215" />
+        <setting id="namescenePreset5" type="text" label="30201" default="30215" />
+        <setting id="savescenePreset5" type="action" label="30031" action="RunScript(service.huecontrol,action=savescene,id=Preset5)" default="" />
+        <setting id="brightnessonlyscenePreset5" type="bool" label="30032" default="false" />
+        <setting id="scenePreset5" type="text" visible="false" default="" />
+    </category>
 </settings>
