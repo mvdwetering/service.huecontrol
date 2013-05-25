@@ -227,6 +227,9 @@ class Bridge:
         else:
             parsedjson = state
         
+        if not 'lights' in parsedjson:
+            return
+            
         lights = parsedjson['lights']
         #print(lights)
 
@@ -234,7 +237,7 @@ class Bridge:
             strId = str(i)
             #print(strId)
             
-            if  not lightList or i in lightList:
+            if  not lightList or (i in lightList):
                 #print(strId)
 
                 if (strId in lights):
@@ -251,14 +254,15 @@ class Bridge:
                         lampstate['bri'] = storedstate['bri']
                         
                         if not briOnly:
-                            # Also restore color stuff
-                            if (storedstate['colormode'] == 'ct'):
-                                lampstate['ct'] = storedstate['ct']
-                            elif (storedstate['colormode'] == 'xy'):
-                                lampstate['xy'] = storedstate['xy']
-                            elif (storedstate['colormode'] == 'hs'):
-                                lampstate['hue'] = storedstate['hue']
-                                lampstate['sat'] = storedstate['sat']
+                            # Also restore color stuff if available (e.g. living whites do not have colormode)
+                            if 'colormode' in storedstate:
+                                if (storedstate['colormode'] == 'ct'):
+                                    lampstate['ct'] = storedstate['ct']
+                                elif (storedstate['colormode'] == 'xy'):
+                                    lampstate['xy'] = storedstate['xy']
+                                elif (storedstate['colormode'] == 'hs'):
+                                    lampstate['hue'] = storedstate['hue']
+                                    lampstate['sat'] = storedstate['sat']
 
                     #print(strId + ":" + json.dumps(lampstate))
                     self.PUT('/lights/{0}/state'.format(strId), lampstate)

@@ -8,9 +8,6 @@ import xbmc, xbmcgui, xbmcaddon
 import subprocess,os
 import sys
 from urlparse import urlparse, parse_qs
-import pickle
-import os
-import errno
 
 import hue
 import huecontrol
@@ -21,29 +18,12 @@ import time
 addonId = sys.argv[0]  # e.g.   service.huecontrol
 
 __addon__ = xbmcaddon.Addon(id=xbmccommon.ADDON_ID)
-__profile__ = xbmc.translatePath(__addon__.getAddonInfo('profile')).decode("utf-8")  # Translate path to change special:// protocol to a normal path
 __addonpath__ = xbmc.translatePath(__addon__.getAddonInfo('path')).decode("utf-8")  # Translate path to change special:// protocol to a normal path
 __addonicon__ = os.path.join(__addonpath__, 'icon.png')
 __language__ = __addon__.getLocalizedString
 
-# Make sure profile path exists (it seems to be created when first time the settings are saved fromthe settings dialog
-# I need the directory earlier.
-try:
-    os.makedirs(__profile__)
-except OSError as exception:
-    if exception.errno != errno.EEXIST:
-        raise
-            
-__addondatafile__ = os.path.join(__profile__, 'bridgesettings.pck')
 
-
-hueAddonSettings = {}
-
-if (os.path.isfile(__addondatafile__)):
-    with open(__addondatafile__, 'rb') as handle:
-      hueAddonSettings = pickle.loads(handle.read())
-      
-
+hueAddonSettings = xbmccommon.HueControlSettings()
 
 idx = 1
 parameters = {}
@@ -95,11 +75,9 @@ if (parameters['action'] == "connect_to_bridge"):
         
         #__addon__.setSetting("bridgeip", bridge.ip)
         #__addon__.setSetting("bridgeid", bridge.id)
-        hueAddonSettings["bridgeip"] = bridge.ip
-        hueAddonSettings["bridgeid"] = bridge.id
-        with open(__addondatafile__, 'wb') as handle:
-            pickle.dump(hueAddonSettings, handle)
-
+        hueAddonSettings.data["bridgeip"] = bridge.ip
+        hueAddonSettings.data["bridgeid"] = bridge.id
+        hueAddonSettings.store()
         
         if (not bridge.isAuthorized()):
             # Perform authorization part
@@ -132,7 +110,7 @@ if (parameters['action'] == "connect_to_bridge"):
             
 elif (parameters['action'] == "savescene"):
     
-    bridge = hue.Bridge(ip=hueAddonSettings["bridgeip"], id=hueAddonSettings["bridgeid"], username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
+    bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"], username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
     
     state = bridge.getFullState()
     #state = "asdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjkl"
@@ -140,19 +118,21 @@ elif (parameters['action'] == "savescene"):
     id = parameters['id']
     #print("save scene" + id + ": " + str(state))
     __addon__.setSetting("scene" + id, str(state))
+    hueAddonSettings.data["scene" + id] = state
     
-    if (__addon__.getSetting("namescene" + id)):
-        id = __addon__.getSetting("namescene" + id)
-    
-    xbmccommon.notify(__language__(30034).format(id))
+    if hueAddonSettings.store():
+        #if (__addon__.getSetting("namescene" + id)):
+        #    id = __language__(id)
+        xbmccommon.notify(__language__(30034).format(id))
 
 elif (parameters['action'] == "recallscene"):
 
     id = parameters['id']
-    state = __addon__.getSetting("scene" + id)
-    print("recall scene" + id + ": " + state)
+    #state = __addon__.getSetting("scene" + id)
+    state = hueAddonSettings.data["scene" + id]
+    print("recall scene" + id + ": " + str(state))
 
-    bridge = hue.Bridge(ip=__addon__.getSetting("bridgeip"), id=__addon__.getSetting("bridgeid"), username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
+    bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"], username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
     bridge.setFullStateLights(state)
 
 elif (parameters['action'] == "showpresets"):
@@ -161,6 +141,9 @@ elif (parameters['action'] == "showpresets"):
     
     presetnames = []
     
+    presetnames.append(__language__(30030))  # Playing
+    presetnames.append(__language__(30040))  # Paused
+    
     for i in range(huecontrol.NUM_PRESETS):
         presetnames.append (__addon__.getSetting("namescenePreset" + str(i+1)))
         print "namescene" + str(i+1) + " - " +  __addon__.getSetting("namescenePreset" + str(i+1))
@@ -168,12 +151,19 @@ elif (parameters['action'] == "showpresets"):
     idx = dialog.select(__language__(30202), presetnames)
     
     if idx >= 0:
-        presetId = "Preset" + str(idx+1)
+        # Assume one of the presets
+        presetId = "Preset" + str(idx+1-2)
+        
+        if idx == 0:
+            presetId = "Playing"
+        if idx == 1:
+            presetId = "Paused"
 
-        state = __addon__.getSetting("scene" + presetId)
-        print("recall preset" + presetId + ": " + state)
+        #state = __addon__.getSetting("scene" + presetId)
+        state = hueAddonSettings.data["scene" + presetId]
+        print("recall preset" + presetId + ": " + str(state))
 
-        bridge = hue.Bridge(ip=__addon__.getSetting("bridgeip"), id=__addon__.getSetting("bridgeid"), username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
+        bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"], username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
         bridge.setFullStateLights(state)
 
     

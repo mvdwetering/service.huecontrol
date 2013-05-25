@@ -114,8 +114,8 @@ msgid "Recall stored lamp state"
 msgstr "Herstel opgeslagen stand"
 
 msgctxt "#30034"
-msgid "Lamp state '{0}' stored"
-msgstr "'{0}' opgeslagen"
+msgid "Lamp state {0} stored"
+msgstr "{0} opgeslagen"
 
 msgctxt "#30040"
 msgid "Paused"
@@ -200,6 +200,10 @@ msgstr "Naam voorkeuze"
 msgctxt "#30202"
 msgid "hue presets"
 msgstr "hue voorkeuzen"
+
+msgctxt "#30210"
+msgid "Preset {0}"
+msgstr "Voorkeuze {0}"
 
 msgctxt "#30211"
 msgid "Preset 1"

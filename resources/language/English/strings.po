@@ -121,7 +121,11 @@ msgctxt "#30033"
 msgid "Recall stored lamp state"
 msgstr ""
 
-#empty strings from id 30034 to 30039
+msgctxt "#30034"
+msgid "Lamp state {0} stored"
+msgstr ""
+
+#empty strings from id 30035 to 30039
 
 msgctxt "#30040"
 msgid "Paused"
@@ -207,6 +211,10 @@ msgstr ""
 
 msgctxt "#30202"
 msgid "hue presets"
+msgstr ""
+
+msgctxt "#30210"
+msgid "Preset {0}"
 msgstr ""
 
 msgctxt "#30211"
