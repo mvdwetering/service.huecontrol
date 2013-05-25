@@ -1,3 +1,8 @@
+0.8
+- Reworked settings handling (old settings will be lost)
+- Reorganised settings window
+- Added a readme
+
 0.7
 - Refactored bridge code
 - Added presets, you can select them when starting te addon from the program sections or you can bind it
