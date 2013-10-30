@@ -56,7 +56,28 @@ class HuePlayer(xbmc.Player):
         print xbmc.Player().getTotalTime()
         print __addon__.getSetting("minvideolength")
 
-        if xbmc.Player().isPlayingVideo() and (xbmc.Player().getTotalTime() >= (float(__addon__.getSetting("minvideolength")) * 60) or xbmc.Player().getTotalTime() == 0):
+        
+        # Figure out if we are really playing a movie (from the library that is)
+        aMovie = True
+
+        response = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1000}')
+        data = json.loads(response)
+        print data
+            
+        players = data["result"]
+        for player in players:
+            if player["type"] != "video":
+                aMovie = False
+            else:
+                response = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title"], "playerid": ' + str(player["playerid"]) + ' }, "id": "VideoGetItem"}')
+                data = json.loads(response)
+                print data
+                result = data["result"]
+                if "result" in data:
+                    aMovie = data["result"]["item"]["type"] == "movie"
+      
+        #if xbmc.Player().isPlayingVideo() and (xbmc.Player().getTotalTime() >= (float(__addon__.getSetting("minvideolength")) * 60) or xbmc.Player().getTotalTime() == 0):
+        if xbmc.Player().isPlayingVideo() and aMovie:
             if (self.CONTROLLING_LAMPS == 0):
                 __addonpath__ = xbmc.translatePath( __addon__.getAddonInfo('profile') ).decode("utf-8")  # Translate path to change special:// protocol to a normal path
                 __addondatafile__ = os.path.join(__addonpath__, 'bridgesettings.pck')
@@ -139,6 +160,12 @@ huePlayer = HuePlayer()
 
 while(not xbmc.abortRequested):
     #print "Loopy"
+    if xbmc.Player().isPlayingVideo():
+        #print "Totaltime {0}".format(xbmc.Player().getTotalTime())
+        #print xbmcgui.getCurrentWindowId()
+        #print xbmc.Player().getPlayingFile()
+        pass
+        
     xbmc.sleep(1000)
 
  
