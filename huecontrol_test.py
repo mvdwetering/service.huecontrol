@@ -7,8 +7,8 @@ import time
 import huecontrol
 
 
-BRIDGEID = "00178809a0e5"
-BRIDGEIP = "192.168.178.140"
+BRIDGEID = "0017880a88ea"
+BRIDGEIP = "192.168.178.26"
 
 # To skip the searching tests as they take long
 skipSearching = False
@@ -22,7 +22,7 @@ if not skipSearching:
         print "Found bridge: "
         print bridge
 
-
+    
     bridge = hue.BridgeLocator("1.2.3.4").FindBridgeById(BRIDGEID)
 
     if not bridge:
@@ -41,7 +41,16 @@ if not skipSearching:
         print bridge
 
 
-bridge = hue.BridgeLocator(BRIDGEIP).GetBridgeFromIp(BRIDGEIP)
+    bridges = hue.BridgeLocator().FindBridges()
+
+    if not bridges:
+        print "ERROR: No bridges found"
+    else:
+        print "Found bridges: "
+        print bridges
+
+
+bridge = hue.BridgeLocator(BRIDGEIP).FindBridgeById(BRIDGEID)
 
 if not bridge:
     print "ERROR: Bridge not found"
@@ -53,7 +62,7 @@ else:
 def log(message):
     print message
     
-bridge.username = huecontrol.BRIDGEUSER
+bridge.username = "aValidUser"
 bridge.devicetype = huecontrol.DEVICETYPE
 bridge.logfunc = log
 
