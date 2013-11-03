@@ -68,16 +68,14 @@ if (parameters['action'] == "connect_to_bridge"):
     
     if (bridgeidx >= 0):
         bridge = bridges[bridgeidx]
-        bridge.username = huecontrol.BRIDGEUSER
-        bridge.devicetype = huecontrol.DEVICETYPE
+        if ("bridgeusername" in hueAddonSettings.data):
+            bridge.username = hueAddonSettings.data["bridgeusername"]
+        bridge.devicetype = huecontrol.DEVICETYPE.format(xbmc.getInfoLabel('System.FriendlyName') )
         
         xbmc.log(msg='Selected bridge {0} = {1}'.format(bridgeidx, bridge))
         
-        #__addon__.setSetting("bridgeip", bridge.ip)
-        #__addon__.setSetting("bridgeid", bridge.id)
         hueAddonSettings.data["bridgeip"] = bridge.ip
         hueAddonSettings.data["bridgeid"] = bridge.id
-        hueAddonSettings.store()
         
         if (not bridge.isAuthorized()):
             # Perform authorization part
@@ -106,11 +104,17 @@ if (parameters['action'] == "connect_to_bridge"):
         if (not bridge.isAuthorized()):
             xbmccommon.notify(__language__(30016), duration=5000)
         else:
+            hueAddonSettings.data["bridgeusername"] = bridge.username
+            # For safety remove any old (fixed) usernames
+            bridge.DELETE("/config/whitelist/{0}".format(huecontrol.OLD_BRIDGEUSER))
+            
             xbmccommon.notify(__language__(30017), duration=5000)
             
+        hueAddonSettings.store()
+    
 elif (parameters['action'] == "savescene"):
     
-    bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"], username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
+    bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"], username=hueAddonSettings.data.get("bridgeusername", None))
     
     state = bridge.getFullState()
     #state = "asdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjkl"
@@ -132,7 +136,7 @@ elif (parameters['action'] == "recallscene"):
     state = hueAddonSettings.data["scene" + id]
     print("recall scene" + id + ": " + str(state))
 
-    bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"], username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
+    bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"], username=hueAddonSettings.data.get("bridgeusername", None))
     bridge.setFullStateLights(state)
 
 elif (parameters['action'] == "showpresets"):
@@ -163,7 +167,7 @@ elif (parameters['action'] == "showpresets"):
         state = hueAddonSettings.data["scene" + presetId]
         print("recall preset" + presetId + ": " + str(state))
 
-        bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"], username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
+        bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"],username=hueAddonSettings.data.get("bridgeusername", None))
         bridge.setFullStateLights(state)
 
     

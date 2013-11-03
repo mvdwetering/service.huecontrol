@@ -170,10 +170,7 @@ class Bridge:
     devicetype = None
     authorized = False
     
-    authorizeThread = None
-    authorizeDuration = 0;
 
-    
     def __init__(self, ip=None, id=None, name=None, devicetype=None, username=None, logfunc=None):
         self.ip = ip
         self.id = id
@@ -187,13 +184,16 @@ class Bridge:
         
 
     def authorize(self):
-        # Attempt to create the user
-        data = {'username':self.username, 'devicetype':self.devicetype}
+        # Attempt to create the/a user
+        data = {'devicetype':self.devicetype}
+        if (self.username):
+            data['username'] = self.username,
+        
         #jsonstr = json.dumps(data)
-
         reply = self.POST("", data, addUsername=False)
         
         if ('success' in reply[0]):
+            self.username = reply[0]["success"]["username"]  # Will be random name or the one provided
             return 0
         elif ('error' in reply[0]):
             return reply[0]['error']['type']

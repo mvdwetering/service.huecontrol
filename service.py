@@ -46,7 +46,7 @@ class HuePlayer(xbmc.Player):
             if __addon__.getSetting("lamp" + strId) == "true":
                 lamps.append(i+1)
             
-        bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"], username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
+        bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"], username=hueAddonSettings.data.get("bridgeusername", None))
         bridge.setFullStateLights(state, lamps, briOnly)
 
     def onPlayBackStarted(self):
@@ -63,7 +63,7 @@ class HuePlayer(xbmc.Player):
 
                 hueAddonSettings = xbmccommon.HueControlSettings()
 
-                bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"], username=huecontrol.BRIDGEUSER, devicetype=huecontrol.DEVICETYPE)
+                bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"], username=hueAddonSettings.data.get("bridgeusername", None))
                 self.savedlampstate = bridge.getFullState()
 
             self.CONTROLLING_LAMPS = 1
@@ -120,8 +120,8 @@ if (hueAddonSettings.data["bridgeip"] and hueAddonSettings.data["bridgeid"]):
     if bridge == None:
         xbmccommon.notify(__language__(30019), duration=10000)
     else:
-        bridge.username = huecontrol.BRIDGEUSER
-        bridge.devicetype = huecontrol.DEVICETYPE
+        bridge.username = hueAddonSettings.data.get("bridgeusername", None)
+        bridge.devicetype = huecontrol.DEVICETYPE.format(xbmc.getInfoLabel('System.FriendlyName'))
         
         if not bridge.isAuthorized():
             xbmccommon.notify(__language__(30019), duration=10000)
