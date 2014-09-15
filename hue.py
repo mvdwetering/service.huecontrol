@@ -202,7 +202,8 @@ class Bridge:
             return 666
         
     def isAuthorized(self):
-        # Just get teh config and check for something in there
+        # Just get the config and check for something in there
+        # Unauthorized users will not get to see the whitelist, authorized users will
         reply = self.GET("/config")
         
         if ('whitelist' in reply):

@@ -11,7 +11,7 @@ BRIDGEID = "0017880a88ea"
 BRIDGEIP = "192.168.178.26"
 
 # To skip the searching tests as they take long
-skipSearching = False
+skipSearching = True
 
 if not skipSearching:
     bridge = hue.BridgeLocator().FindBridgeById(BRIDGEID)
@@ -74,7 +74,7 @@ print bridge.isAuthorized()
 result = bridge.authorize()
 print result
 if result != 101:
-    print "Unexpected result " + str(result)
+    print "Unexpected result " + str(result)[:100]
 
 
 fullstate = bridge.getFullState()
