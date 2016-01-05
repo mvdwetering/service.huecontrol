@@ -1,6 +1,8 @@
 0.9
+- Minimum version of Kodi is 15 (Isengard)
 - Change XBMC references to Kodi
 - Add support for up to 63 lights
+- Update addon icon and background
 
 0.8
 - Reworked settings handling (old settings will be lost)
