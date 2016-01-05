@@ -1,5 +1,5 @@
 #
-# XBMC Service plugin that controls the brightnes/on state of lamps
+# Kodi Service plugin that controls the brightnes/on state of lamps
 #
 
 import json
@@ -40,7 +40,7 @@ class HuePlayer(xbmc.Player):
         hueAddonSettings = xbmccommon.HueControlSettings()
     
         lamps = []
-        for i in range(huecontrol.MAX_LAMPS):
+        for i in range(hue.MAX_LAMPS):
             strId = str(i+1)
 
             if __addon__.getSetting("lamp" + strId) == "true":

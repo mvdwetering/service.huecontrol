@@ -24,6 +24,54 @@
         <setting id="lamp13" type="bool" label="30123" default="false" />
         <setting id="lamp14" type="bool" label="30124" default="false" />
         <setting id="lamp15" type="bool" label="30125" default="false" />
+        <setting id="lamp16" type="bool" label="30126" default="false" />
+        <setting id="lamp17" type="bool" label="30127" default="false" />
+        <setting id="lamp18" type="bool" label="30128" default="false" />
+        <setting id="lamp19" type="bool" label="30129" default="false" />
+        <setting id="lamp20" type="bool" label="30130" default="false" />
+        <setting id="lamp21" type="bool" label="30131" default="false" />
+        <setting id="lamp22" type="bool" label="30132" default="false" />
+        <setting id="lamp23" type="bool" label="30133" default="false" />
+        <setting id="lamp24" type="bool" label="30134" default="false" />
+        <setting id="lamp25" type="bool" label="30135" default="false" />
+        <setting id="lamp26" type="bool" label="30136" default="false" />
+        <setting id="lamp27" type="bool" label="30137" default="false" />
+        <setting id="lamp28" type="bool" label="30138" default="false" />
+        <setting id="lamp29" type="bool" label="30139" default="false" />
+        <setting id="lamp30" type="bool" label="30140" default="false" />
+        <setting id="lamp31" type="bool" label="30141" default="false" />
+        <setting id="lamp32" type="bool" label="30142" default="false" />
+        <setting id="lamp33" type="bool" label="30143" default="false" />
+        <setting id="lamp34" type="bool" label="30144" default="false" />
+        <setting id="lamp35" type="bool" label="30145" default="false" />
+        <setting id="lamp36" type="bool" label="30146" default="false" />
+        <setting id="lamp37" type="bool" label="30147" default="false" />
+        <setting id="lamp38" type="bool" label="30148" default="false" />
+        <setting id="lamp39" type="bool" label="30149" default="false" />
+        <setting id="lamp40" type="bool" label="30150" default="false" />
+        <setting id="lamp41" type="bool" label="30151" default="false" />
+        <setting id="lamp42" type="bool" label="30152" default="false" />
+        <setting id="lamp43" type="bool" label="30153" default="false" />
+        <setting id="lamp44" type="bool" label="30154" default="false" />
+        <setting id="lamp45" type="bool" label="30155" default="false" />
+        <setting id="lamp46" type="bool" label="30156" default="false" />
+        <setting id="lamp47" type="bool" label="30157" default="false" />
+        <setting id="lamp48" type="bool" label="30158" default="false" />
+        <setting id="lamp49" type="bool" label="30159" default="false" />
+        <setting id="lamp50" type="bool" label="30160" default="false" />
+        <setting id="lamp51" type="bool" label="30161" default="false" />
+        <setting id="lamp52" type="bool" label="30162" default="false" />
+        <setting id="lamp53" type="bool" label="30163" default="false" />
+        <setting id="lamp54" type="bool" label="30164" default="false" />
+        <setting id="lamp55" type="bool" label="30165" default="false" />
+        <setting id="lamp56" type="bool" label="30166" default="false" />
+        <setting id="lamp57" type="bool" label="30167" default="false" />
+        <setting id="lamp58" type="bool" label="30168" default="false" />
+        <setting id="lamp59" type="bool" label="30169" default="false" />
+        <setting id="lamp60" type="bool" label="30170" default="false" />
+        <setting id="lamp61" type="bool" label="30171" default="false" />
+        <setting id="lamp62" type="bool" label="30172" default="false" />
+        <setting id="lamp63" type="bool" label="30173" default="false" />
     </category>
 
     <!-- Presets -->

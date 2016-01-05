@@ -1,5 +1,5 @@
 #
-# XBMC Script plugin that handles the actions for the huecontorl
+# Kodi Script plugin that handles the actions for the huecontorl
 #
 
 import json

@@ -1,7 +1,7 @@
-# XBMC Media Center language file
+# Kodi language file
 # Addon Name: hue control
 # Addon id: service.huecontrol
-# Addon version: 0.3
+# Addon version: 0.8
 # Addon Provider: Michel van de Wetering
 msgid ""
 msgstr ""
@@ -187,7 +187,7 @@ msgstr ""
 
 msgctxt "#30122"
 msgid "Hue lamp 12"
-msgstr "
+msgstr ""
 
 msgctxt "#30123"
 msgid "Hue lamp 13"
@@ -199,6 +199,198 @@ msgstr ""
 
 msgctxt "#30125"
 msgid "Hue lamp 15"
+msgstr ""
+
+msgctxt "#30126"
+msgid "Hue lamp 16"
+msgstr ""
+
+msgctxt "#30127"
+msgid "Hue lamp 17"
+msgstr ""
+
+msgctxt "#30128"
+msgid "Hue lamp 18"
+msgstr ""
+
+msgctxt "#30129"
+msgid "Hue lamp 19"
+msgstr ""
+
+msgctxt "#30130"
+msgid "Hue lamp 20"
+msgstr ""
+
+msgctxt "#30131"
+msgid "Hue lamp 21"
+msgstr ""
+
+msgctxt "#30132"
+msgid "Hue lamp 22"
+msgstr ""
+
+msgctxt "#30133"
+msgid "Hue lamp 23"
+msgstr ""
+
+msgctxt "#30134"
+msgid "Hue lamp 24"
+msgstr ""
+
+msgctxt "#30135"
+msgid "Hue lamp 25"
+msgstr ""
+
+msgctxt "#30136"
+msgid "Hue lamp 26"
+msgstr ""
+
+msgctxt "#30137"
+msgid "Hue lamp 27"
+msgstr ""
+
+msgctxt "#30138"
+msgid "Hue lamp 28"
+msgstr ""
+
+msgctxt "#30139"
+msgid "Hue lamp 29"
+msgstr ""
+
+msgctxt "#30140"
+msgid "Hue lamp 30"
+msgstr ""
+
+msgctxt "#30141"
+msgid "Hue lamp 31"
+msgstr ""
+
+msgctxt "#30142"
+msgid "Hue lamp 32"
+msgstr ""
+
+msgctxt "#30143"
+msgid "Hue lamp 33"
+msgstr ""
+
+msgctxt "#30144"
+msgid "Hue lamp 34"
+msgstr ""
+
+msgctxt "#30145"
+msgid "Hue lamp 35"
+msgstr ""
+
+msgctxt "#30146"
+msgid "Hue lamp 36"
+msgstr ""
+
+msgctxt "#30147"
+msgid "Hue lamp 37"
+msgstr ""
+
+msgctxt "#30148"
+msgid "Hue lamp 38"
+msgstr ""
+
+msgctxt "#30149"
+msgid "Hue lamp 39"
+msgstr ""
+
+msgctxt "#30150"
+msgid "Hue lamp 40"
+msgstr ""
+
+msgctxt "#30151"
+msgid "Hue lamp 41"
+msgstr ""
+
+msgctxt "#30152"
+msgid "Hue lamp 42"
+msgstr ""
+
+msgctxt "#30153"
+msgid "Hue lamp 43"
+msgstr ""
+
+msgctxt "#30154"
+msgid "Hue lamp 44"
+msgstr ""
+
+msgctxt "#30155"
+msgid "Hue lamp 45"
+msgstr ""
+
+msgctxt "#30156"
+msgid "Hue lamp 46"
+msgstr ""
+
+msgctxt "#30157"
+msgid "Hue lamp 47"
+msgstr ""
+
+msgctxt "#30158"
+msgid "Hue lamp 48"
+msgstr ""
+
+msgctxt "#30159"
+msgid "Hue lamp 49"
+msgstr ""
+
+msgctxt "#30160"
+msgid "Hue lamp 50"
+msgstr ""
+
+msgctxt "#30161"
+msgid "Hue lamp 51"
+msgstr ""
+
+msgctxt "#30162"
+msgid "Hue lamp 52"
+msgstr ""
+
+msgctxt "#30163"
+msgid "Hue lamp 53"
+msgstr ""
+
+msgctxt "#30164"
+msgid "Hue lamp 54"
+msgstr ""
+
+msgctxt "#30165"
+msgid "Hue lamp 55"
+msgstr ""
+
+msgctxt "#30166"
+msgid "Hue lamp 56"
+msgstr ""
+
+msgctxt "#30167"
+msgid "Hue lamp 57"
+msgstr ""
+
+msgctxt "#30168"
+msgid "Hue lamp 58"
+msgstr ""
+
+msgctxt "#30169"
+msgid "Hue lamp 59"
+msgstr ""
+
+msgctxt "#30170"
+msgid "Hue lamp 60"
+msgstr ""
+
+msgctxt "#30171"
+msgid "Hue lamp 61"
+msgstr ""
+
+msgctxt "#30172"
+msgid "Hue lamp 62"
+msgstr ""
+
+msgctxt "#30173"
+msgid "Hue lamp 63"
 msgstr ""
 
 msgctxt "#30200"

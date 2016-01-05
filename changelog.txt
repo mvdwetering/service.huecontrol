@@ -1,3 +1,7 @@
+0.9
+- Change XBMC references to Kodi
+- Add support for up to 63 lights
+
 0.8
 - Reworked settings handling (old settings will be lost)
 - Reorganised settings window

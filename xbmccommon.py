@@ -1,12 +1,12 @@
 #
-# Common code for xbmc related stuff
+# Common code for Kodi related stuff
 #
 
 import xbmc, xbmcaddon
 import pickle
 import os
 import errno
-import huecontrol
+import hue
 
 ADDON_ID = 'service.huecontrol'
 
@@ -72,7 +72,7 @@ class HueControlSettings:
         self.data['scenePreset4'] = {'lights': {}}
         self.data['scenePreset5'] = {'lights': {}}
 
-        for i in range(huecontrol.MAX_LAMPS):
+        for i in range(hue.MAX_LAMPS):
             self.data['scenePlaying']['lights'][str(i+1)] =  {'state':{'on':False}}
             self.data['scenePaused']['lights'][str(i+1)] = {'state':{'on':True, 'bri':100}}
             self.data['scenePreset1']['lights'][str(i+1)] = {'state':{'on':True, 'bri':50, 'colormode':'ct', 'ct':500}}

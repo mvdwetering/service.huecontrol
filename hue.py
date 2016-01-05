@@ -15,7 +15,7 @@ import time
 import re
 import sys
 
-MAX_LAMPS = 50   # Max lamps supported by the bridge
+MAX_LAMPS = 63   # Max lamps supported by the bridge
 NUM_THREADS = 20 # Number of threads spawned when searching the network for bridges
 
 class BridgeLocator:
@@ -100,7 +100,7 @@ class BridgeLocator:
 
         self.q.join()
         
-        # Done with the threads, time to close them down, otherwise they hang xbmc when tying to close it
+        # Done with the threads, time to close them down, otherwise they hang Kodi when tying to close it
         for i in range(NUM_THREADS):
             self.q.put("STOP")
         
@@ -202,7 +202,7 @@ class Bridge:
             return 666
         
     def isAuthorized(self):
-        # Just get teh config and check for something in there
+        # Just get the config and check if we can see the whitelist
         reply = self.GET("/config")
         
         if ('whitelist' in reply):
@@ -214,7 +214,7 @@ class Bridge:
         # Get the full state of the bridge
         reply = self.GET("")
 
-        return json.dumps(reply)  # return the string so the receiver can easily store it (relevant for saving settings in XBMC which must be strings)
+        return json.dumps(reply)  # return the string so the receiver can easily store it (relevant for saving settings in Kodi which must be strings)
         
     def setFullStateLights(self, state, lightList=None, briOnly=False):
     
