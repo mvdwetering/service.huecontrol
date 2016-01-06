@@ -68,7 +68,7 @@ class BridgeLocator:
         self.bridgesById = {}
 
         # First try nupnp
-        r = requests.get('http://www.meethue.com/api/nupnp')
+        r = requests.get('http://www.meethue.com/api/nupnp', timeout=2)
         if r.status_code == 200:
             bridgelist = r.json()
             
@@ -337,18 +337,13 @@ class Bridge:
         self.log('> {0}, {1}, {2}\n'.format(method, url, body))
 
         try:
-            conn = httplib.HTTPConnection(self.ip)
-            conn.request(method, url, body)
-            resp = conn.getresponse()
-            data = resp.read()
-
-            reply = json.loads(data)
-            conn.close()
+            r = requests.request(method, "http://{0}{1}".format(self.ip, url), data=body, timeout=1.5)
+            reply = r.json()
         except Exception as e:
             self.log('E {0}\n'.format(traceback.format_exc()))
             raise e
         else:
-            self.log('< {0}\n'.format(data))
+            self.log('< {0}\n'.format(reply))
         
         return reply
         
