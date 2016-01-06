@@ -8,6 +8,7 @@
 - Use requests for network requests
 - Improve searching for bridges
 - Add support for migrated bridges
+- Update bridge authentication code for upcoming changes in the Hue API
 
 0.8
 - Reworked settings handling (old settings will be lost)
