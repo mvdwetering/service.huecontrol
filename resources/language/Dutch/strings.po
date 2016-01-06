@@ -1,6 +1,6 @@
 # Kodi language file
-# Addon Name: hue control
-# Addon id: service.huecontrol
+# Addon Name: Hue Control
+# Addon id: service.Huecontrol
 # Addon version: 0.8
 # Addon Provider: Michel van de Wetering
 msgid ""
@@ -18,16 +18,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 msgctxt "Addon Summary"
-msgid "Change your hue lights when a movie starts."
+msgid "Change your Hue lights when a movie starts."
 msgstr "Verander de licht instellingen als je een film speelt."
 
 msgctxt "Addon Description"
 msgid "This addon will change your lighting when the movie starts, gets paused or stops."
-msgstr "Deze uitbreiding voor Kodi kan de instelingen van de hue lampen aanpassen als je ene film start, stop of pauzeerd"
+msgstr "Deze uitbreiding voor Kodi kan de instelingen van de Hue lampen aanpassen als je ene film start, stop of pauzeerd"
 
 msgctxt "#30000"
-msgid "hue control"
-msgstr "hue control"
+msgid "Hue Control"
+msgstr "Hue Control"
 
 msgctxt "#30001"
 msgid "Settings"
@@ -38,32 +38,32 @@ msgid "Minimum video length (in minutes)"
 msgstr "Minimale video lengte (in minuten)"
 
 msgctxt "#30004"
-msgid "hue settings"
+msgid "Hue settings"
 msgstr "Hue instellingen"
 
 msgctxt "#30006"
-msgid "Connect to hue bridge"
-msgstr "Verbinden met hue bridge"
+msgid "Connect to Hue bridge"
+msgstr "Verbinden met Hue bridge"
 
 msgctxt "#30007"
 msgid "Searching"
 msgstr "Zoeken"
 
 msgctxt "#30008"
-msgid "Searching for hue bridge"
-msgstr "Zoeken naar hue bridge"
+msgid "Searching for Hue bridge"
+msgstr "Zoeken naar Hue bridge"
 
 msgctxt "#30009"
 msgid "Search failed"
 msgstr "Zoeken mislukt"
 
 msgctxt "#30010"
-msgid "Could not locate a hue bridge"
-msgstr "Geen hue bridge gevonden"
+msgid "Could not locate a Hue bridge"
+msgstr "Geen Hue bridge gevonden"
 
 msgctxt "#30011"
-msgid "Found {0}"
-msgstr "Gevonden: {0}"
+msgid "Found '{0}'"
+msgstr "Bridge '{0}' gevonden"
 
 msgctxt "#30012"
 msgid "Select a bridge"
@@ -96,6 +96,10 @@ msgstr "Klaar voor gebruik"
 msgctxt "#30019"
 msgid "Could not reconnect to bridge"
 msgstr "Kan geen verbinding maken met bridge"
+
+msgctxt "#30020"
+msgid "Found {0} bridges"
+msgstr "{0} bridge gevonden"
 
 msgctxt "#30030"
 msgid "Playing"
@@ -390,8 +394,8 @@ msgid "Preset name"
 msgstr "Naam voorkeuze"
 
 msgctxt "#30202"
-msgid "hue presets"
-msgstr "hue voorkeuzen"
+msgid "Hue presets"
+msgstr "Hue voorkeuzen"
 
 msgctxt "#30210"
 msgid "Preset {0}"

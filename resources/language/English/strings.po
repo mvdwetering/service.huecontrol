@@ -1,6 +1,6 @@
 # Kodi language file
-# Addon Name: hue control
-# Addon id: service.huecontrol
+# Addon Name: Hue Control
+# Addon id: service.Huecontrol
 # Addon version: 0.8
 # Addon Provider: Michel van de Wetering
 msgid ""
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 msgctxt "Addon Summary"
-msgid "Change your hue lights when a movie starts."
+msgid "Change your Hue lights when a movie starts."
 msgstr ""
 
 msgctxt "Addon Description"
@@ -26,7 +26,7 @@ msgid "This addon will change your lighting when the movie starts, gets paused o
 msgstr ""
 
 msgctxt "#30000"
-msgid "hue control"
+msgid "Hue Control"
 msgstr ""
 
 msgctxt "#30001"
@@ -40,13 +40,13 @@ msgid "Minimum video length (in minutes)"
 msgstr ""
 
 msgctxt "#30004"
-msgid "hue settings"
+msgid "Hue settings"
 msgstr ""
 
 #empty string with id 30005
 
 msgctxt "#30006"
-msgid "Connect to hue bridge"
+msgid "Connect to Hue bridge"
 msgstr ""
 
 msgctxt "#30007"
@@ -54,7 +54,7 @@ msgid "Searching"
 msgstr ""
 
 msgctxt "#30008"
-msgid "Searching for hue bridge"
+msgid "Searching for Hue bridge"
 msgstr ""
 
 msgctxt "#30009"
@@ -62,12 +62,12 @@ msgid "Search failed"
 msgstr ""
 
 msgctxt "#30010"
-msgid "Could not locate a hue bridge"
+msgid "Could not locate a Hue bridge"
 msgstr ""
 
 #. {0} will be replaced with the bridgename
 msgctxt "#30011"
-msgid "Found {0}"
+msgid "Found '{0}'"
 msgstr ""
 
 msgctxt "#30012"
@@ -103,7 +103,12 @@ msgctxt "#30019"
 msgid "Could not reconnect to bridge"
 msgstr ""
 
-#empty strings from id 30020 to 30029
+#. {0} will be replaced with the amount of bridges
+msgctxt "#30020"
+msgid "Found {0} bridges"
+msgstr ""
+
+#empty strings from id 30021 to 30029
 
 msgctxt "#30030"
 msgid "Playing"
@@ -402,7 +407,7 @@ msgid "Preset name"
 msgstr ""
 
 msgctxt "#30202"
-msgid "hue presets"
+msgid "Hue presets"
 msgstr ""
 
 msgctxt "#30210"

@@ -1,8 +1,13 @@
 0.9
-- Minimum version of Kodi is 15 (Isengard)
+- Minimum version of Kodi is 14 (Helix)
 - Change XBMC references to Kodi
 - Add support for up to 63 lights
 - Update addon icon and background
+- Add debug logging
+- Misc updates to make the addon more futureproof
+- Use requests for network requests
+- Improve searching for bridges
+- Add support for migrated bridges
 
 0.8
 - Reworked settings handling (old settings will be lost)

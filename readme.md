@@ -1,9 +1,9 @@
-hue control
+Hue Control
 ===========
 
 About
 -----
-hue control is a Kodi addon that can change your hue lights when starting a movie.
+Hue Control is a Kodi addon that can change your hue lights when starting a movie.
 Next to that it has a few preset slots that you can use to recall any lightsetting you created earlier with your TV remote.
 
 

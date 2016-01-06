@@ -6,8 +6,12 @@
         <setting type="lsep" label="30004" />
         <setting id="authorize" type="action" label="30006" action="RunScript(service.huecontrol,action=connect_to_bridge)" default="" />
         <setting label="30003" type="slider" id="minvideolength" default="10" range="0,1,60" option="int" />
-        
-        <!-- Lamps -->
+
+    </category>        
+
+    <!-- Lamps -->
+    <category label="30109">
+
         <setting type="lsep" label="30110" />
         <setting id="lamp1" type="bool" label="30111" default="true" />
         <setting id="lamp2" type="bool" label="30112" default="true" />

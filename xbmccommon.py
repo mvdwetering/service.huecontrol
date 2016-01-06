@@ -26,6 +26,11 @@ def notify(text, duration=3000, title=None):
     xbmc.executebuiltin('Notification("{1}","{2}", {3}, {0})'.format(__addonicon__, title, text, duration))
 
 
+def logDebug(msg):
+    xbmc.log(msg, level=xbmc.LOGDEBUG)
+    
+def logError(msg):
+    xbmc.log(msg, level=xbmc.LOGERROR)
     
 # --- Settings related stuff ---
     
@@ -46,15 +51,21 @@ class HueControlSettings:
         self.data = {}
 
         if not os.path.isfile(self.datafile):
-            self._createdefaultpresets()
+            self._createorupdatedefaultpresets()
         else:
             with open(self.datafile, 'rb') as handle:
                 self.data = pickle.loads(handle.read())
                 
             if not 'settingsversion' in self.data:
-                self._createdefaultpresets()
+                self._createorupdatedefaultpresets()
                 self.data['settingsversion'] = 1
-                
+            
+            if self.data['settingsversion'] == 1:
+                if 'bridgeid' in self.data:
+                    oldbridgeid = self.data['bridgeid']
+                    self.data['bridgeid'] = "{0}fffe{1}".format(oldbridgeid[0:6], oldbridgeid[6:12]).lower()
+                self._createorupdatedefaultpresets()
+                self.data['settingsversion'] = 2
 
     def store(self):
         with open(self.datafile, 'wb') as handle:
@@ -63,23 +74,40 @@ class HueControlSettings:
         
         return False
     
-    def _createdefaultpresets(self):
-        self.data['scenePlaying'] = {'lights': {}}
-        self.data['scenePaused'] = {'lights': {}}
-        self.data['scenePreset1'] = {'lights': {}}
-        self.data['scenePreset2'] = {'lights': {}}
-        self.data['scenePreset3'] = {'lights': {}}
-        self.data['scenePreset4'] = {'lights': {}}
-        self.data['scenePreset5'] = {'lights': {}}
+    def _createorupdatedefaultpresets(self):
+    
+        if not 'scenePlaying' in self.data:
+            self.data['scenePlaying'] = {'lights': {}}
+        if not 'scenePaused' in self.data:
+            self.data['scenePaused'] = {'lights': {}}
+        if not 'scenePreset1' in self.data:
+            self.data['scenePreset1'] = {'lights': {}}
+        if not 'scenePreset2' in self.data:
+            self.data['scenePreset2'] = {'lights': {}}
+        if not 'scenePreset3' in self.data:
+            self.data['scenePreset3'] = {'lights': {}}
+        if not 'scenePreset4' in self.data:
+            self.data['scenePreset4'] = {'lights': {}}
+        if not 'scenePreset5' in self.data:
+            self.data['scenePreset5'] = {'lights': {}}
 
         for i in range(hue.MAX_LAMPS):
-            self.data['scenePlaying']['lights'][str(i+1)] =  {'state':{'on':False}}
-            self.data['scenePaused']['lights'][str(i+1)] = {'state':{'on':True, 'bri':100}}
-            self.data['scenePreset1']['lights'][str(i+1)] = {'state':{'on':True, 'bri':50, 'colormode':'ct', 'ct':500}}
-            self.data['scenePreset2']['lights'][str(i+1)] = {'state':{'on':True, 'bri':100, 'colormode':'ct', 'ct':420}}
-            self.data['scenePreset3']['lights'][str(i+1)] = {'state':{'on':True, 'bri':150, 'colormode':'ct', 'ct':340}}
-            self.data['scenePreset4']['lights'][str(i+1)] = {'state':{'on':True, 'bri':200, 'colormode':'ct', 'ct':260}}
-            self.data['scenePreset5']['lights'][str(i+1)] = {'state':{'on':True, 'bri':250, 'colormode':'ct', 'ct':180}}
+            lightId = str(i+1)
+            
+            if not lightId in self.data['scenePlaying']['lights']:
+                self.data['scenePlaying']['lights'][lightId] =  {'state':{'on':False}}
+            if not lightId in self.data['scenePaused']['lights']:
+                self.data['scenePaused']['lights'][lightId] = {'state':{'on':True, 'bri':100}}
+            if not lightId in self.data['scenePreset1']['lights']:
+                self.data['scenePreset1']['lights'][lightId] = {'state':{'on':True, 'bri':50, 'colormode':'ct', 'ct':500}}
+            if not lightId in self.data['scenePreset2']['lights']:
+                self.data['scenePreset2']['lights'][lightId] = {'state':{'on':True, 'bri':100, 'colormode':'ct', 'ct':420}}
+            if not lightId in self.data['scenePreset3']['lights']:
+                self.data['scenePreset3']['lights'][lightId] = {'state':{'on':True, 'bri':150, 'colormode':'ct', 'ct':340}}
+            if not lightId in self.data['scenePreset4']['lights']:
+                self.data['scenePreset4']['lights'][lightId] = {'state':{'on':True, 'bri':200, 'colormode':'ct', 'ct':260}}
+            if not lightId in self.data['scenePreset5']['lights']:
+                self.data['scenePreset5']['lights'][lightId] = {'state':{'on':True, 'bri':250, 'colormode':'ct', 'ct':180}}
             
         self.store()
             

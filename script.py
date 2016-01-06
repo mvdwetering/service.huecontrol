@@ -24,6 +24,8 @@ __language__ = __addon__.getLocalizedString
 
 
 hueAddonSettings = xbmccommon.HueControlSettings()
+logError = xbmccommon.logError
+logDebug = xbmccommon.logDebug
 
 idx = 1
 parameters = {}
@@ -48,7 +50,7 @@ if (parameters['action'] == "connect_to_bridge"):
     progress.create(__language__(30007), __language__(30008))
     progress.update(0)
     
-    bridges = hue.BridgeLocator(iprange=xbmc.getIPAddress()).FindBridges(progress=progress.update)
+    bridges = hue.BridgeLocator(iprange=xbmc.getIPAddress(), logfunc=logDebug).FindBridges(progress=progress.update)
     bridgeidx = -1;
     
     progress.close();
@@ -63,11 +65,13 @@ if (parameters['action'] == "connect_to_bridge"):
     else:
         dialog = xbmcgui.Dialog()
         
-        bridgenames = ["{0}, {1} ({2})".format(bridge.name, bridge.id, bridge.ip) for bridge in bridges]
-        bridgeidx = dialog.select(__language__(30011), bridgenames)
+        bridgenames = ["{0} - {1} ({2})".format(bridge.name, bridge.id[-6:].upper(), bridge.ip) for bridge in bridges]
+        bridgeidx = dialog.select(__language__(30020).format(len(bridgenames)), bridgenames)
     
     if (bridgeidx >= 0):
+
         bridge = bridges[bridgeidx]
+        bridge.logfunc = logDebug
         if ("bridgeusername" in hueAddonSettings.data):
             bridge.username = hueAddonSettings.data["bridgeusername"]
         bridge.devicetype = huecontrol.DEVICETYPE.format(xbmc.getInfoLabel('System.FriendlyName') )
@@ -87,9 +91,7 @@ if (parameters['action'] == "connect_to_bridge"):
             maxcount = 60
             count = 0
             while count < maxcount:
-                progress.update(int((100.0/maxcount) * count), (__language__(30014) + "\n" + __language__(30015)).format(maxcount - count))
-                #print("{0} seconds remaining".format(maxcount - count))
-
+                progress.update(int((100.0/maxcount) * count), __language__(30014), __language__(30015).format(maxcount - count))
                 result = bridge.authorize()
                 
                 if result == 0 or progress.iscanceled():
@@ -120,21 +122,18 @@ elif (parameters['action'] == "savescene"):
     #state = "asdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjkl"
 
     id = parameters['id']
-    #print("save scene" + id + ": " + str(state))
+    logDebug("save scene" + id + ": " + str(state))
     __addon__.setSetting("scene" + id, str(state))
     hueAddonSettings.data["scene" + id] = state
     
     if hueAddonSettings.store():
-        #if (__addon__.getSetting("namescene" + id)):
-        #    id = __language__(id)
         xbmccommon.notify(__language__(30034).format(id))
 
 elif (parameters['action'] == "recallscene"):
 
     id = parameters['id']
-    #state = __addon__.getSetting("scene" + id)
     state = hueAddonSettings.data["scene" + id]
-    print("recall scene" + id + ": " + str(state))
+    logDebug("recall scene" + id + ": " + str(state))
 
     bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"], username=hueAddonSettings.data.get("bridgeusername", None))
     bridge.setFullStateLights(state)
@@ -149,8 +148,8 @@ elif (parameters['action'] == "showpresets"):
     presetnames.append(__language__(30040))  # Paused
     
     for i in range(huecontrol.NUM_PRESETS):
+        logDebug("namescene" + str(i+1) + " - " +  __addon__.getSetting("namescenePreset" + str(i+1)))
         presetnames.append (__addon__.getSetting("namescenePreset" + str(i+1)))
-        print "namescene" + str(i+1) + " - " +  __addon__.getSetting("namescenePreset" + str(i+1))
     
     idx = dialog.select(__language__(30202), presetnames)
     
@@ -165,7 +164,7 @@ elif (parameters['action'] == "showpresets"):
 
         #state = __addon__.getSetting("scene" + presetId)
         state = hueAddonSettings.data["scene" + presetId]
-        print("recall preset" + presetId + ": " + str(state))
+        logDebug("recall preset" + presetId + ": " + str(state))
 
         bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"],username=hueAddonSettings.data.get("bridgeusername", None))
         bridge.setFullStateLights(state)

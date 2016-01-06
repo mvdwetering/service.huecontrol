@@ -1,5 +1,5 @@
 #
-# Kodi Service plugin that controls the brightnes/on state of lamps
+# Kodi Service plugin that controls the brightness/on state of lamps
 #
 
 import json
@@ -14,6 +14,8 @@ import huecontrol
 import xbmccommon
 import time
 
+logDebug = xbmccommon.logDebug
+logError = xbmccommon.logError
   
 class HuePlayer(xbmc.Player):
 
@@ -24,7 +26,7 @@ class HuePlayer(xbmc.Player):
         self.CONTROLLING_LAMPS = 0
         self.addonId = xbmccommon.ADDON_ID
 
-        print "--> Init"
+        logDebug("--> Init")
 
     def _setScene(self, scenename):
         __addon__ = xbmcaddon.Addon(id=self.addonId)
@@ -52,9 +54,7 @@ class HuePlayer(xbmc.Player):
     def onPlayBackStarted(self):
         __addon__ = xbmcaddon.Addon(id=self.addonId)
 
-        print "--> onPlayBackStarted"
-        print xbmc.Player().getTotalTime()
-        print __addon__.getSetting("minvideolength")
+        logDebug("--> onPlayBackStarted {0}, {1}".format(xbmc.Player().getTotalTime(), __addon__.getSetting("minvideolength")))
 
         if xbmc.Player().isPlayingVideo() and (xbmc.Player().getTotalTime() >= (float(__addon__.getSetting("minvideolength")) * 60) or xbmc.Player().getTotalTime() == 0):
             if (self.CONTROLLING_LAMPS == 0):
@@ -71,7 +71,7 @@ class HuePlayer(xbmc.Player):
             
     
     def onPlayBackEnded(self):
-        print "--> onPlayBackEnded"
+        logDebug("--> onPlayBackEnded")
             
         if self.CONTROLLING_LAMPS == 1:
             self._setState(self.savedlampstate)
@@ -79,7 +79,7 @@ class HuePlayer(xbmc.Player):
         self.CONTROLLING_LAMPS = 0
 
     def onPlayBackStopped(self):
-        print "--> onPlayBackStopped"
+        logDebug("--> onPlayBackStopped")
 
         if self.CONTROLLING_LAMPS == 1:
             self._setState(self.savedlampstate)
@@ -89,7 +89,7 @@ class HuePlayer(xbmc.Player):
         
     def onPlayBackPaused(self):
         __addon__ = xbmcaddon.Addon(id=self.addonId)
-        print "--> onPlayBackPaused"
+        logDebug("--> onPlayBackPaused")
 
         if self.CONTROLLING_LAMPS == 1:
             self._setScene("scenePaused")
@@ -97,7 +97,7 @@ class HuePlayer(xbmc.Player):
 
     def onPlayBackResumed(self):
         __addon__ = xbmcaddon.Addon(id=self.addonId)
-        print "--> onPlayBackResumed"
+        logDebug("--> onPlayBackResumed")
 
         if self.CONTROLLING_LAMPS == 1:
             self._setScene("scenePlaying")
@@ -114,7 +114,7 @@ hueAddonSettings = xbmccommon.HueControlSettings()
 hueBridgeOk = False
 
 # Make sure the important settings exist
-if (hueAddonSettings.data["bridgeip"] and hueAddonSettings.data["bridgeid"]):
+if ("bridgeip" in hueAddonSettings.data and "bridgeid" in hueAddonSettings.data):
     bridge = hue.BridgeLocator(iprange=xbmc.getIPAddress()).FindBridgeById(hueAddonSettings.data["bridgeid"], hueAddonSettings.data["bridgeip"])
     
     if bridge == None:
@@ -136,11 +136,10 @@ if (hueAddonSettings.data["bridgeip"] and hueAddonSettings.data["bridgeid"]):
             
             
 huePlayer = HuePlayer()
-
-while(not xbmc.abortRequested):
-    #print "Loopy"
-    xbmc.sleep(1000)
-
+monitor = xbmc.Monitor()
  
-
-    
+while not monitor.abortRequested():
+    # Sleep/wait for abort for 10 seconds
+    if monitor.waitForAbort(10):
+        # Abort was requested while waiting. We should exit
+        break
