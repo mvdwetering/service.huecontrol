@@ -12,6 +12,11 @@ Installation
 Just install from the zip file
 When updating the addon make sure to disable and enable the addon listed under Services/huecontrol because Kodi does not restart it automatically (Restarting Kodi also works).
 
+If you have problems upgrading the addon then:
+- Uninstall the addon
+- Restart Kodi
+- Install the addon
+
 
 Setup
 -----
