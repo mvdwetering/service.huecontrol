@@ -22,7 +22,7 @@ class HuePlayer(xbmc.Player):
     def __init__ (self):
         xbmc.Player.__init__(self)
         
-        self.savedlampstate = ''
+        self.savedlampstate = {}
         self.CONTROLLING_LAMPS = 0
         self.addonId = xbmccommon.ADDON_ID
 
@@ -36,19 +36,11 @@ class HuePlayer(xbmc.Player):
 
     def _setState(self, state, briOnly=False):
         __addon__ = xbmcaddon.Addon(id=self.addonId)
-        __addonpath__ = xbmc.translatePath( __addon__.getAddonInfo('profile') ).decode("utf-8")  # Translate path to change special:// protocol to a normal path
-        __addondatafile__ = os.path.join(__addonpath__, 'bridgesettings.pck')
 
         hueAddonSettings = xbmccommon.HueControlSettings()
-    
-        lamps = []
-        for i in range(hue.MAX_LAMPS):
-            strId = str(i+1)
-
-            if __addon__.getSetting("lamp" + strId) == "true":
-                lamps.append(i+1)
-            
         bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"], username=hueAddonSettings.data.get("bridgeusername", None))
+
+        lamps = xbmccommon.getConfiguredLampsList()
         bridge.setFullStateLights(state, lamps, briOnly)
 
     def onPlayBackStarted(self):
@@ -58,9 +50,6 @@ class HuePlayer(xbmc.Player):
 
         if xbmc.Player().isPlayingVideo() and (xbmc.Player().getTotalTime() >= (float(__addon__.getSetting("minvideolength")) * 60) or xbmc.Player().getTotalTime() == 0):
             if (self.CONTROLLING_LAMPS == 0):
-                __addonpath__ = xbmc.translatePath( __addon__.getAddonInfo('profile') ).decode("utf-8")  # Translate path to change special:// protocol to a normal path
-                __addondatafile__ = os.path.join(__addonpath__, 'bridgesettings.pck')
-
                 hueAddonSettings = xbmccommon.HueControlSettings()
 
                 bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"], username=hueAddonSettings.data.get("bridgeusername", None))

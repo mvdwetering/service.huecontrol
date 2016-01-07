@@ -15,6 +15,15 @@ import xbmccommon
 import time
 
 
+def recallScene(sceneName):
+    briOnly =  __addon__.getSetting("brightnessonly" + sceneName) == "true"
+    state = hueAddonSettings.data["scene" + sceneName]
+    logDebug("recall preset" + sceneName + ": " + str(state))
+
+    bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"],username=hueAddonSettings.data.get("bridgeusername", None))
+    bridge.setFullStateLights(state,  xbmccommon.getConfiguredLampsList(), briOnly)
+
+
 addonId = sys.argv[0]  # e.g.   service.huecontrol
 
 __addon__ = xbmcaddon.Addon(id=xbmccommon.ADDON_ID)
@@ -37,9 +46,8 @@ while idx < len(sys.argv):
     idx += 1
 
 if (parameters['action'] == "none"):
-    # No action paramter, so must be run from programs thingy.
-    # Lets show settings for now
-    #__addon__.openSettings()
+    # No action parameter, so must be run from programs thingy.
+    # Lets show presets
     parameters['action'] = "showpresets"
 
 
@@ -119,24 +127,21 @@ elif (parameters['action'] == "savescene"):
     bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"], username=hueAddonSettings.data.get("bridgeusername", None))
     
     state = bridge.getFullState()
-    #state = "asdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjkl"
 
     id = parameters['id']
     logDebug("save scene" + id + ": " + str(state))
-    __addon__.setSetting("scene" + id, str(state))
+    __addon__.setSetting("scene" + id, "") # I used to store the complete state here, write an empty string now, to "unbloat" the settings.xml
     hueAddonSettings.data["scene" + id] = state
     
     if hueAddonSettings.store():
-        xbmccommon.notify(__language__(30034).format(id))
+        presetname = __addon__.getSetting("namescene" + id)
+        if presetname == "":
+            presetname = id
+        xbmccommon.notify(__language__(30034).format(presetname))
 
 elif (parameters['action'] == "recallscene"):
 
-    id = parameters['id']
-    state = hueAddonSettings.data["scene" + id]
-    logDebug("recall scene" + id + ": " + str(state))
-
-    bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"], username=hueAddonSettings.data.get("bridgeusername", None))
-    bridge.setFullStateLights(state)
+    recallScene(paramters['id'])
 
 elif (parameters['action'] == "showpresets"):
 
@@ -162,11 +167,5 @@ elif (parameters['action'] == "showpresets"):
         if idx == 1:
             presetId = "Paused"
 
-        #state = __addon__.getSetting("scene" + presetId)
-        state = hueAddonSettings.data["scene" + presetId]
-        logDebug("recall preset" + presetId + ": " + str(state))
-
-        bridge = hue.Bridge(ip=hueAddonSettings.data["bridgeip"], id=hueAddonSettings.data["bridgeid"],username=hueAddonSettings.data.get("bridgeusername", None))
-        bridge.setFullStateLights(state)
-
+        recallScene(presetId)
     

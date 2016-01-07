@@ -264,7 +264,7 @@ class Bridge:
         # Get the full state of the bridge
         reply = self.GET("")
 
-        return json.dumps(reply)  # return the string so the receiver can easily store it (relevant for saving settings in Kodi which must be strings)
+        return reply; # json.dumps(reply)  # return the string so the receiver can easily store it (relevant for saving settings in Kodi which must be strings)
         
     def setFullStateLights(self, state, lightList=None, briOnly=False):
     
@@ -282,7 +282,7 @@ class Bridge:
             
         lights = parsedjson['lights']
 
-        for i in range(MAX_LAMPS):
+        for i in range(1, MAX_LAMPS+1):
             strId = str(i)
             
             if  not lightList or (i in lightList):
@@ -339,6 +339,8 @@ class Bridge:
         try:
             r = requests.request(method, "http://{0}{1}".format(self.ip, url), data=body, timeout=1.5)
             reply = r.json()
+        except requests.exceptions.ConnectTimeout as e:
+            self.log("Connection timeout! IP:{0}, URL:{1}".format(self.ip, url))
         except Exception as e:
             self.log('E {0}\n'.format(traceback.format_exc()))
             raise e

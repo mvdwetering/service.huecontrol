@@ -1,14 +1,16 @@
 0.9
-- Minimum version of Kodi is 14 (Helix)
+Note: Some settings will be lost when updating to this version. Please reconfigure the addon
 - Change XBMC references to Kodi
+- Minimum supported version of Kodi is now 14 (Helix)
 - Add support for up to 63 lights
 - Update addon icon and background
-- Add debug logging
-- Misc updates to make the addon more futureproof
+- Add debug logging (when Kodi debug logging is enabled)
+- Misc. updates to make the addon more futureproof
 - Use requests for network requests
 - Improve searching for bridges
 - Add support for migrated bridges
 - Update bridge authentication code for upcoming changes in the Hue API
+- Bugfixes
 
 0.8
 - Reworked settings handling (old settings will be lost)

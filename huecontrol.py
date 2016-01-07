@@ -6,5 +6,6 @@
 #       Keep this constant so we can delete this unsafe user.
 OLD_BRIDGEUSER = "65c3f3f7caf6f3c782a5cf3ed8b25de2c83e5b07"
 DEVICETYPE = "Kodi Hue control - {0}"
+SETTINGSFILE = "bridgesettings2.pck"  
 
 NUM_PRESETS = 5
