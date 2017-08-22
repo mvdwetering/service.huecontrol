@@ -5,7 +5,7 @@
     
         <setting type="lsep" label="30004" />
         <setting id="authorize" type="action" label="30006" action="RunScript(service.huecontrol,action=connect_to_bridge)" default="" />
-        <setting label="30003" type="slider" id="minvideolength" default="10" range="0,1,60" option="int" />
+        <setting label="30003" type="slider" id="minvideolength" default="10" range="0,1,90" option="int" />
 
     </category>        
 
