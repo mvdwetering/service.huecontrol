@@ -1,3 +1,6 @@
+0.10
+ - Extend minimum-video-length range to 90 minutes
+
 0.9
 Note: Some settings will be lost when updating to this version. Please reconfigure the addon
 - Change XBMC references to Kodi
