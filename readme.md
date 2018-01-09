@@ -1,6 +1,8 @@
 Hue Control
 ===========
 
+> Note that I am not actually using (and therefore maintaining) this addon anymore.
+
 About
 -----
 Hue Control is a Kodi addon that can change your hue lights when starting a movie.
